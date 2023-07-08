@@ -6,4 +6,4 @@ export default withAuth({
   },
 });
 
-export const config = { matcher: ["/", "/rutes"] };
+export const config = { matcher: ["/", "/rute","/driver"] };

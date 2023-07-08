@@ -1,11 +1,12 @@
 import "./globals.css";
-import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import { TailwindIndicator } from "~/components/tailwind-indicator";
 import { fontSans } from "~/lib/font";
 import { ThemeProvider } from "~/components/theme/theme-provider";
-import { siteConfig } from "~/lib/site";
 import { cn } from "~/lib/utils";
+import { Metadata } from "next";
+import { siteConfig } from "~/config/site";
+import NextAuthProvider from "~/components/next-auth-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -30,26 +31,20 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <>
-      <html lang="en" suppressHydrationWarning>
-        <head />
-        <body
-          className={cn(
-            "min-h-screen bg-background font-sans antialiased",
-            fontSans.variable
-          )}
-        >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {/* <div className="relative flex min-h-screen flex-col"> */}
-            {/* <SiteHeader /> */}
-            {/* <div className="flex-1">{children}</div> */}
-            {/* </div> */}
-            {children}
-            <TailwindIndicator />
-          </ThemeProvider>
-          <Toaster />
-        </body>
-      </html>
-    </>
+    <html lang="en" suppressHydrationWarning>
+      <head />
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <NextAuthProvider>{children}</NextAuthProvider>
+          <TailwindIndicator />
+        </ThemeProvider>
+        <Toaster />
+      </body>
+    </html>
   );
 }

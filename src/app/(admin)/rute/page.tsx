@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import { faker } from "@faker-js/faker";
 
 import { labels, priorities, statuses } from "~/lib/data";
@@ -8,6 +6,7 @@ import { taskSchema } from "~/types/task";
 import { DataTable } from "~/components/table/data-table";
 import { columns } from "~/components/table/columns";
 import { SiteHeader } from "~/components/nav/site-header";
+import { Metadata } from "next/types";
 
 async function getTasks() {
   const tasks = Array.from({ length: 100 }, () => ({
@@ -23,12 +22,16 @@ async function getTasks() {
   return z.array(taskSchema).parse(tasks);
 }
 
-export default async function Home() {
+export const metadata: Metadata = {
+  title: "Rute",
+  description: "Authentication forms built using the components.",
+};
+
+export default async function Rote() {
   const tasks = await getTasks();
   return (
-    <main className="container mx-auto text-center p-24 gap-y-5">
-      <SiteHeader /> 
-      <DataTable cl data={tasks} columns={columns} />
-    </main>
+    <>
+      <DataTable data={tasks} columns={columns} />
+    </>
   );
 }

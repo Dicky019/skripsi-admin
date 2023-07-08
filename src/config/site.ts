@@ -1,22 +1,21 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Petcare",
+  name: "Admin",
   description:
     "Beautifully designed components built with Radix UI and Tailwind CSS.",
-  mainNav:  [
-    
+  mainNav: [
     {
-      title: "Pemesanan",
+      title: "Home",
       href: "/",
     },
     {
-      title: "Jadwal Layanan",
-      href: "/jadwal-layanan",
+      title: "Driver",
+      href: "/driver",
     },
     {
-      title: "Users",
-      href: "/users",
+      title: "Rute",
+      href: "/rute",
     },
   ],
   links: {
