@@ -6,14 +6,13 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
   // relationMode = "prisma"
 }
 
 model Driver {
-  id           String  @id @default(cuid())
-  isActive     Boolean @default(false)
+  id           String   @id @default(cuid())
   namaLengkap  String
   alamat       String
   nik          String
@@ -23,7 +22,9 @@ model Driver {
   maxPenumpang Int
   fotoKtp      String
   fotoMobil    String
-  User         User?
+  user         User?
+  location     Location @relation(fields: [locationId], references: [id])
+  locationId   String   @unique
 }
 
 model Rute {
@@ -37,20 +38,29 @@ model Rute {
 }
 
 model Location {
-  id   String @id @default(cuid())
-  lat  String
-  long String
-  Rute Rute?
+  id     String  @id @default(cuid())
+  lat    String
+  long   String
+  Rute   Rute?
+  Driver Driver?
 }
 
 model User {
-  id            String    @id @default(cuid())
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  driver        Driver?   @relation(fields: [driverId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  driverId      String    @unique
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  email     String   @unique
+  password  String
+  status    Boolean  @default(false)
+  image     String?
+  driver    Driver   @relation(fields: [driverId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  driverId  String   @unique
+  role      UserRole
+}
+
+enum UserRole {
+  admin
+  driver
+  passenger
 }
