@@ -1,0 +1,165 @@
+"use client";
+
+import { ColumnDef } from "@tanstack/react-table";
+import { Checkbox } from "~/components/ui/checkbox";
+
+import { statuses } from "~/lib/data";
+import { DataTableColumnHeader } from "../data-table/data-table-column-header";
+import { DataTableRowActions } from "../data-table/data-table-row-actions";
+import { IDriver } from "~/types/driver";
+import { User } from "@prisma/client";
+import { Button } from "~/components/ui/button";
+import { SiCodereview } from "react-icons/si";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "~/components/ui/hover-card";
+import Image from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+
+export const driverColumns: ColumnDef<IDriver>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllPageRowsSelected()}
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+        className="translate-y-[2px]"
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="text-left">
+        {" "}
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+          className="translate-y-[2px]"
+        />{" "}
+      </div>
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "nama Lengkap",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Nama Lengkap" />
+    ),
+    cell: ({ row }) => (
+      <div className="flex gap-x-2">
+        <Avatar>
+          <AvatarImage src={row.original.fotoKtp} alt="@fotoKtp" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        <div className="flex flex-col text-left">
+          <div className="font-semibold">
+            {row.original.namaLengkap} (
+            <span className="font-light">{row.original.user?.name ?? "-"}</span>
+            )
+          </div>
+          <div>{row.original.user?.email ?? "-"}</div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "mobil",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Mobil" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex gap-x-2">
+          <Avatar>
+            <AvatarImage src={row.original.fotoMobil} alt="@fotoMobil" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col text-left">
+            <div className="font-semibold">
+              {row.original.noPlatMobil.toUpperCase()}
+            </div>
+            <div className="font-semibold">
+              Max: {row.original.maxPenumpang}
+            </div>
+          </div>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "no Hp",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="No HP" />
+    ),
+    cell: ({ row }) => <div className="text-left">{row.original.noHp}</div>,
+  },
+  {
+    accessorKey: "nik",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="NIK" />
+    ),
+    cell: ({ row }) => <div className="text-left">{row.getValue("nik")}41040130129301</div>,
+  },
+
+  {
+    accessorKey: "alamat",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Alamat" />
+    ),
+    cell: ({ row }) => (
+      <div className="flex items-center gap-x-2">
+        <div className="text-left max-w-[250px] line-clamp-2 font-medium">
+          {row.getValue("alamat")}
+        </div>
+        <HoverCard>
+          <HoverCardTrigger>
+            <Button size="icon" variant="outline">
+              <SiCodereview />
+            </Button>
+          </HoverCardTrigger>
+          <HoverCardContent className="text-left">
+            <div className="font-semibold mb-1 text-lg">Alamat</div>
+            <div>
+              {row.getValue("alamat")} Lorem ipsum dolor sit amet consectetur
+              adipisicing elit
+            </div>
+          </HoverCardContent>
+        </HoverCard>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+    cell: ({ row }) => {
+      const value = row.original.isActive;
+      const status = statuses.find((status) => status.value === value);
+
+      if (!status) {
+        return null;
+      }
+
+      return (
+        <div className="flex w-[100px] items-center">
+          {status.icon && (
+            <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
+          )}
+          <span>{status.label}</span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+
+  {
+    id: "actions",
+    cell: ({ row }) => <DataTableRowActions row={row} />,
+  },
+];

@@ -15,7 +15,6 @@ import { Button } from "~/components/ui/button";
 import { signIn } from "next-auth/react";
 
 export const FormLogin = () => {
-
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -29,7 +28,7 @@ export const FormLogin = () => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
-    const user = await signIn("credentials", {
+    await signIn("credentials", {
       ...values,
       redirect: true,
       callbackUrl: "/",

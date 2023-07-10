@@ -8,6 +8,7 @@ import {
   QuestionMarkCircledIcon,
   StopwatchIcon,
 } from "@radix-ui/react-icons";
+import { FcApproval, FcCancel, FcCheckmark } from "react-icons/fc";
 
 export const labels = [
   {
@@ -26,29 +27,14 @@ export const labels = [
 
 export const statuses = [
   {
-    value: "backlog",
-    label: "Backlog",
-    icon: QuestionMarkCircledIcon,
-  },
-  {
-    value: "todo",
-    label: "Todo",
-    icon: CircleIcon,
-  },
-  {
-    value: "in progress",
-    label: "In Progress",
-    icon: StopwatchIcon,
-  },
-  {
     value: "done",
-    label: "Done",
-    icon: CheckCircledIcon,
+    label: "Active",
+    icon: FcApproval,
   },
   {
     value: "canceled",
-    label: "Canceled",
-    icon: CrossCircledIcon,
+    label: "Non Active",
+    icon: FcCancel,
   },
 ];
 

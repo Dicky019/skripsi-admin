@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Toaster } from "react-hot-toast";
+// import { Toaster } from "react-hot-toast";
 import { TailwindIndicator } from "~/components/tailwind-indicator";
 import { fontSans } from "~/lib/font";
 import { ThemeProvider } from "~/components/theme/theme-provider";
@@ -7,6 +7,7 @@ import { cn } from "~/lib/utils";
 import { Metadata } from "next";
 import { siteConfig } from "~/config/site";
 import NextAuthProvider from "~/components/next-auth-provider";
+import { Toaster } from "~/components/ui/toaster"
 
 export const metadata: Metadata = {
   title: {
@@ -42,8 +43,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NextAuthProvider>{children}</NextAuthProvider>
           <TailwindIndicator />
+          <Toaster />
         </ThemeProvider>
-        <Toaster />
+        {/* <Toaster /> */}
       </body>
     </html>
   );

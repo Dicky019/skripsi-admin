@@ -7,26 +7,29 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { DataTableViewOptions } from "./data-table-view-options";
 
-import { priorities, statuses } from "~/lib/data";
+import { statuses } from "~/lib/data";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
+import { IDriver } from "~/types/driver";
 
-export interface DataTableToolbarProps<TData> {
-  table: Table<TData>;
+export interface DataTableToolbarProps {
+  table: Table<IDriver>;
 }
 
-export function DataTableToolbar<TData>({
-  table,
-}: DataTableToolbarProps<TData>) {
+// export type  IDataTableToolbar  = typeof DataTableToolbar
+
+export function DataTableToolbar({ table }: DataTableToolbarProps) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter tasks..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter by Nama Lengkap..."
+          value={
+            (table.getColumn("namaLengkap")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table.getColumn("namaLengkap")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
@@ -37,13 +40,7 @@ export function DataTableToolbar<TData>({
             options={statuses}
           />
         )}
-        {table.getColumn("priority") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("priority")}
-            title="Priority"
-            options={priorities}
-          />
-        )}
+
         {isFiltered && (
           <Button
             variant="ghost"
@@ -55,7 +52,16 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <DataTableViewOptions table={table} />
+      <div className="flex items-center gap-x-2">
+        <Button
+          variant="outline"
+          size="sm"
+          className="ml-auto hidden h-8 lg:flex"
+        >
+          Export CSV
+        </Button>
+        <DataTableViewOptions table={table} />
+      </div>
     </div>
   );
 }

@@ -26,16 +26,19 @@ import {
 } from "~/components/ui/table";
 
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableToolbar } from "./data-table-toolbar";
+// import { DataTableToolbar } from "./data-table-toolbar";
+import { DataTableToolbarProps } from "../data-table/data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  DataTableToolbar : ({ table, }: DataTableToolbarProps<TData>) =>  JSX.Element  
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  DataTableToolbar
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
