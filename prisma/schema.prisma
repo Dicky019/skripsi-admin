@@ -6,13 +6,13 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-  // relationMode = "prisma"
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Driver {
-  id           String   @id @default(cuid())
+  id           String    @id @default(cuid())
   namaLengkap  String
   alamat       String
   nik          String
@@ -23,26 +23,29 @@ model Driver {
   fotoKtp      String
   fotoMobil    String
   user         User?
-  location     Location @relation(fields: [locationId], references: [id])
-  locationId   String   @unique
+  location     Location? @relation(fields: [locationId], references: [id])
+  locationId   String?   @unique
 }
 
 model Rute {
-  id         String   @id @default(cuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  name       String
-  kode       String
-  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  locationId String   @unique
+  id              String   @id @default(cuid())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  name            String
+  kode            String
+  locationAwal    Location @relation(fields: [locationAwalId], references: [id], onDelete: Cascade, onUpdate: Cascade, name: "Awal")
+  locationAwalId  String   @unique
+  locationAkhir   Location @relation(fields: [locationAkhirId], references: [id], onDelete: Cascade, onUpdate: Cascade, name: "Akhir")
+  locationAkhirId String   @unique
 }
 
 model Location {
-  id     String  @id @default(cuid())
-  lat    String
-  long   String
-  Rute   Rute?
-  Driver Driver?
+  id        String  @id @default(cuid())
+  lat       String
+  long      String
+  Driver    Driver?
+  RuteAwal  Rute?   @relation(name: "Awal")
+  RuteAkhir Rute?   @relation(name: "Akhir")
 }
 
 model User {

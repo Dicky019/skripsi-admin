@@ -5,9 +5,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 
 import { statuses } from "~/lib/data";
 import { DataTableColumnHeader } from "../data-table/data-table-column-header";
-import { DataTableRowActions } from "../data-table/data-table-row-actions";
 import { IDriver } from "~/types/driver";
-import { User } from "@prisma/client";
 import { Button } from "~/components/ui/button";
 import { SiCodereview } from "react-icons/si";
 import {
@@ -15,8 +13,8 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "~/components/ui/hover-card";
-import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { DataTableRowActions } from "./data-table-row-actions";
 
 export const driverColumns: ColumnDef<IDriver>[] = [
   {
@@ -44,7 +42,7 @@ export const driverColumns: ColumnDef<IDriver>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "nama Lengkap",
+    accessorKey: "namaLengkap",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Nama Lengkap" />
     ),
@@ -101,7 +99,9 @@ export const driverColumns: ColumnDef<IDriver>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="NIK" />
     ),
-    cell: ({ row }) => <div className="text-left">{row.getValue("nik")}41040130129301</div>,
+    cell: ({ row }) => (
+      <div className="text-left">{row.getValue("nik")}41040130129301</div>
+    ),
   },
 
   {
@@ -122,10 +122,7 @@ export const driverColumns: ColumnDef<IDriver>[] = [
           </HoverCardTrigger>
           <HoverCardContent className="text-left">
             <div className="font-semibold mb-1 text-lg">Alamat</div>
-            <div>
-              {row.getValue("alamat")} Lorem ipsum dolor sit amet consectetur
-              adipisicing elit
-            </div>
+            <div>{row.getValue("alamat")}</div>
           </HoverCardContent>
         </HoverCard>
       </div>
@@ -137,7 +134,7 @@ export const driverColumns: ColumnDef<IDriver>[] = [
       <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
-      const value = row.original.isActive;
+      const value = row.original.status;
       const status = statuses.find((status) => status.value === value);
 
       if (!status) {

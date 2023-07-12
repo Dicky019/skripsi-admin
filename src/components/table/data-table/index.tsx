@@ -26,19 +26,19 @@ import {
 } from "~/components/ui/table";
 
 import { DataTablePagination } from "./data-table-pagination";
-// import { DataTableToolbar } from "./data-table-toolbar";
-import { DataTableToolbarProps } from "../data-table/data-table-toolbar";
+import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  DataTableToolbar : ({ table, }: DataTableToolbarProps<TData>) =>  JSX.Element  
+  searchKey : string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  DataTableToolbar
+  searchKey,
+  // DataTableToolbar
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -72,7 +72,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar searchKey={searchKey} table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
