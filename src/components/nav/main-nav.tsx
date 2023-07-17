@@ -16,9 +16,6 @@ interface MainNavProps {
 
 export function MainNav({ items }: MainNavProps) {
   const pathname = usePathname();
-  // React.useEffect(() => {
-  //   // console.log({ pathnama,href : item.href });
-  // });
   return (
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="flex items-center space-x-2">

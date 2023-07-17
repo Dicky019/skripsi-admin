@@ -54,6 +54,7 @@ export default async function Home() {
     const rute = {
       kode: `KODE ${faker.string.alpha(1)}`,
       name: faker.location.city(),
+      color: faker.color.rgb(),
       locationAwal: {
         lat: faker.location.latitude().toString(),
         long: faker.location.longitude().toString(),
@@ -68,6 +69,7 @@ export default async function Home() {
       data: {
         kode: rute.kode,
         name: rute.name,
+        color : rute.color,
         locationAwal: {
           create: rute.locationAwal,
         },

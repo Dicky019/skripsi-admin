@@ -42,4 +42,5 @@ export interface IRute {
   updatedAt: Date;
   name: string;
   kode: string;
+  color: string;
 }

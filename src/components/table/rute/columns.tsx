@@ -10,16 +10,44 @@ export const ruteColumns: ColumnDef<IRute>[] = [
   {
     accessorKey: "kode",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="NIK" />
+      <DataTableColumnHeader column={column} title="Kode" />
     ),
-    cell: ({ row }) => <div className="text-left">{row.getValue("kode")}</div>,
+    cell: ({ row }) => (
+      <div className="text-left">
+        {row.getValue<string>("kode").toUpperCase()}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "color",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Color" />
+    ),
+    cell: ({ row }) => {
+      const color = row.original.color;
+
+      return (
+        <div
+          style={{
+            backgroundColor: color,
+          }}
+          className="rounded-md p-2 w-24"
+        >
+          {color.toUpperCase()}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="No HP" />
+      <DataTableColumnHeader column={column} title="Name" />
     ),
-    cell: ({ row }) => <div className="text-left">{row.original.name}</div>,
+    cell: ({ row }) => (
+      <div className="text-left">
+        {row.getValue<string>("name").toUpperCase()}
+      </div>
+    ),
   },
   {
     accessorKey: "locationAwal",
