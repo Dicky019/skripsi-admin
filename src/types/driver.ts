@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { userSchema } from "./user";
+import { userCreateSchema } from "./user";
 import { ILocation } from "./location";
 import { UserRole } from "@prisma/client";
 
 export const driverSchema = z.object({
   id: z.string(),
-  user: userSchema,
+  user: userCreateSchema,
   namaLengkap: z.string(),
   alamat: z.string(),
   nik: z.string(),
