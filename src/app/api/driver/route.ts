@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { driverGetAll } from "~/server/driver/get-all";
+import { driverGetAll } from "~/server/driver/get-driver";
 
 export async function GET() {
   const data = await driverGetAll();

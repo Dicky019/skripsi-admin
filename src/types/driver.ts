@@ -1,6 +1,7 @@
 import { z } from "zod";
-import { IUser, userSchema } from "./user";
+import { userSchema } from "./user";
 import { ILocation } from "./location";
+import { UserRole } from "@prisma/client";
 
 export const driverSchema = z.object({
   id: z.string(),
@@ -29,5 +30,16 @@ export interface IDriver {
   fotoMobil: string;
   location?: ILocation;
   status: string;
-  user: IUser;
+  user: IUserDriver;
+}
+
+interface IUserDriver {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  image?: string;
+  role: UserRole;
+  createdAt: Date;
+  updatedAt: Date;
 }

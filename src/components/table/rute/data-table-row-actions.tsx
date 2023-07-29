@@ -8,24 +8,24 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 
-import { labels, statuses } from "~/lib/data";
-import { IDriver } from "~/types/driver";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+} from "~/components/ui/alert-dialog";
+import { IRute } from "~/types/rute";
+import { ruteDelete } from "~/server/rute/delete";
+import { AlertDialogContentDelete } from "~/components/alerts/delete-alerts";
+
 
 interface DataTableRowActionsProps {
   row: Row<IRute>;
 }
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {
-  // const status = row.original;
   const data = row.original;
 
   return (
@@ -55,46 +55,5 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         }}
       />
     </AlertDialog>
-  );
-}
-
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "~/components/ui/alert-dialog";
-import { driverDelete } from "~/server/driver/delete";
-import { IRute } from "~/server/rute/get-all";
-import { ruteDelete } from "~/server/rute/delete";
-
-interface IAlertDialogContentDelete {
-  title: string;
-  onContinue: () => void;
-}
-
-export function AlertDialogContentDelete({
-  title,
-  onContinue,
-}: IAlertDialogContentDelete) {
-  return (
-    <AlertDialogContent>
-      <AlertDialogHeader>
-        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-        <AlertDialogDescription>
-          This action cannot be undone. This will permanently and remove {title}{" "}
-          from servers.
-        </AlertDialogDescription>
-      </AlertDialogHeader>
-      <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction onClick={onContinue}>Continue</AlertDialogAction>
-      </AlertDialogFooter>
-    </AlertDialogContent>
   );
 }

@@ -4,7 +4,8 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { DataTableColumnHeader } from "../data-table/data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
-import { IRute } from "~/server/rute/get-all";
+import { IRute } from "~/types/rute";
+
 
 export const ruteColumns: ColumnDef<IRute>[] = [
   {

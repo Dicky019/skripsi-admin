@@ -30,7 +30,7 @@ export function CardLogin() {
         {/* form login */}
 
         {/* login google */}
-        <div className="relative">
+        {/* <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
           </div>
@@ -44,7 +44,7 @@ export function CardLogin() {
         <Button className="mb-2" size="lg" variant="outline">
           <FcGoogle className="mr-2 h-4 w-4" />
           Google
-        </Button>
+        </Button> */}
         {/* end login google */}
       </CardContent>
     </Card>

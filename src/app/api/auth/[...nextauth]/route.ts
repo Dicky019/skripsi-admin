@@ -72,7 +72,13 @@ const authOptions: NextAuthOptions = {
         }
       }
       return token
-    }
+    },
+    
+  },
+  pages: {
+    signIn : "/login",
+    error : "/login",
+    signOut : "/login",
   }
 };
 

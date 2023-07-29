@@ -2,33 +2,25 @@
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Row } from "@tanstack/react-table";
+import { AlertDialogContentDelete } from "~/components/alerts/delete-alerts";
+import { AlertDialog, AlertDialogTrigger } from "~/components/ui/alert-dialog";
 
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-
-import { statuses } from "~/lib/data";
-import { IDriver } from "~/types/driver";
-import { driverDelete } from "~/server/driver/delete";
-import { AlertDialog, AlertDialogTrigger } from "~/components/ui/alert-dialog";
-import { AlertDialogContentDelete } from "~/components/alerts/delete-alerts";
+import { deleteUser } from "~/server/user/delete";
+import { IUser } from "~/types/user";
 
 interface DataTableRowActionsProps {
-  row: Row<IDriver>;
+  row: Row<IUser>;
 }
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {
-  // const status = row.original;
   const data = row.original;
 
   return (
@@ -44,18 +36,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
-            <DropdownMenuSubContent>
-              <DropdownMenuRadioGroup value={data.status}>
-                {statuses.map((label) => (
-                  <DropdownMenuRadioItem key={label.value} value={label.value}>
-                    {label.label}
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
+        <DropdownMenuItem>Edit</DropdownMenuItem>
           <DropdownMenuSeparator />
           <AlertDialogTrigger asChild>
             <DropdownMenuItem>Delete</DropdownMenuItem>
@@ -63,12 +44,11 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         </DropdownMenuContent>
       </DropdownMenu>
       <AlertDialogContentDelete
-        title={data.namaLengkap}
+        title={data.name}
         onContinue={() => {
-          driverDelete(data.id, true);
+          deleteUser(data.id, true);
         }}
       />
     </AlertDialog>
   );
 }
-
