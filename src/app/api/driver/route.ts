@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { driverGetAll } from "~/server/driver/get-driver";
+import { getDrivers } from "~/server/driver/gets";
 
 export async function GET() {
-  const data = await driverGetAll();
+  const data = await getDrivers();
 
   const headersList = headers();
 

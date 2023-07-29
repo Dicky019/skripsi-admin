@@ -7,7 +7,7 @@ export async function deleteUser(
   id: string,
   isRevalidatePath: boolean = false
 ) {
-  const rutes = await prisma.rute.delete({
+  const rutes = await prisma.user.delete({
     where: { id },
   });
   if (isRevalidatePath) {

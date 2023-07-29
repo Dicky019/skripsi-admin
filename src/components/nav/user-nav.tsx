@@ -93,7 +93,7 @@ export const UserAvatar = () => {
 
   return (
     <Avatar className="h-9 w-9">
-      {data.user?.email && <AvatarImage alt="@shadcn" src={data.user.email} />}
+      {data.user?.image && <AvatarImage alt="@shadcn" src={data.user.image} />}
       <AvatarFallback>{data.user.name?.charAt(0).toUpperCase()}</AvatarFallback>
     </Avatar>
   );

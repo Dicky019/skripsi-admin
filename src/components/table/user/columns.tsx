@@ -5,8 +5,29 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "../data-table/data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
 import { IUser } from "~/types/user";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+// import {}
 
 export const userColumns: ColumnDef<IUser>[] = [
+  {
+    accessorKey: "image",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Image" />
+    ),
+    cell: ({ row }) => {
+      const image = row.getValue<string | undefined>("image");
+      const name = row.getValue<string>("name");
+      return (
+        <Avatar>
+          <AvatarImage
+            src={image ?? "https://github.com/shadcn.png"}
+            alt={name}
+          />
+          <AvatarFallback>{name}</AvatarFallback>
+        </Avatar>
+      );
+    },
+  },
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -14,7 +35,7 @@ export const userColumns: ColumnDef<IUser>[] = [
     ),
     cell: ({ row }) => (
       <div className="text-left">
-        {row.getValue<string>("name").toUpperCase()}
+        {row.getValue<string>("name")}
       </div>
     ),
   },
@@ -22,33 +43,22 @@ export const userColumns: ColumnDef<IUser>[] = [
   {
     accessorKey: "email",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
+      <DataTableColumnHeader column={column} title="Email" />
     ),
     cell: ({ row }) => (
       <div className="text-left">
-        {row.getValue<string>("email").toUpperCase()}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "role",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
-    ),
-    cell: ({ row }) => (
-      <div className="text-left">
-        {row.getValue<string>("role").toUpperCase()}
+        {row.getValue<string>("email")}
       </div>
     ),
   },
   {
     accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
+      <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => (
       <div className="text-left">
-        {row.getValue<string>("status").toUpperCase()}
+        {row.getValue<boolean>("status") ? "isActive" : "Non Active"}
       </div>
     ),
   },

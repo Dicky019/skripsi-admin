@@ -1,34 +1,35 @@
 import {
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "~/components/ui/alert-dialog";
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogCancel,
+  DialogAction,
+} from "~/components/ui/dialog";
 
-interface IAlertDialogContentDelete {
+interface AlertDialogContentUpdate {
   title: string;
   onContinue: () => void;
 }
 
-export function AlertDialogContentDelete({
+export function AlertDialogContentUpdate({
   title,
   onContinue,
-}: IAlertDialogContentDelete) {
+}: AlertDialogContentUpdate) {
   return (
-    <AlertDialogContent>
-      <AlertDialogHeader>
-        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-        <AlertDialogDescription>
-        This action will change <span className="font-bold"> {title}</span> from servers.
-        </AlertDialogDescription>
-      </AlertDialogHeader>
-      <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction onClick={onContinue}>Continue</AlertDialogAction>
-      </AlertDialogFooter>
-    </AlertDialogContent>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Are you sure?</DialogTitle>
+        <DialogDescription>
+          This action will change <span className="font-bold"> {title}</span>{" "}
+          from servers.
+        </DialogDescription>
+      </DialogHeader>
+      <DialogFooter>
+        <DialogCancel>Cancel</DialogCancel>
+        <DialogAction onClick={onContinue}>Continue</DialogAction>
+      </DialogFooter>
+    </DialogContent>
   );
 }

@@ -6,7 +6,7 @@ import { IUser } from "~/types/user";
 
 const date = new Date();
 
-export async function getUsers() {
+export async function getsUser() {
   const users = await prisma.user.findMany({
     where: {
       role: UserRole.passenger,
@@ -20,16 +20,3 @@ export async function getUsers() {
     todays : todays as IUser[],
   };
 }
-
-
-
-
-// export async function ruteGetInformasion() {
-//   const rutes = await prisma.rute.findMany({});
-//   const todays = rutes.filter(({ createdAt }) => sameDay(createdAt, date));
-
-//   return {
-//     all: rutes.length.toString(),
-//     today: todays.length.toString(),
-//   };
-// }

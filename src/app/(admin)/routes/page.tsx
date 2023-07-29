@@ -1,9 +1,8 @@
-import { DataTable } from "~/components/table/data-table";
 import { Metadata } from "next/types";
-import { driverColumns } from "~/components/table/driver/columns";
-import { getRutes } from "~/server/rute/get-rute";
+import { getsRute } from "~/server/rute/gets";
 import { ruteColumns } from "~/components/table/rute/columns";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { TabsTable } from "~/components/tabs/tabs-table";
+import { AddEnum } from "~/lib/enum";
 
 export const metadata: Metadata = {
   title: "Rute",
@@ -11,28 +10,9 @@ export const metadata: Metadata = {
 };
 
 export default async function Rute() {
-  const rutes = await getRutes();
-  // const drivers = await driverGetAll();
+  const rutes = await getsRute();
+
   return (
-    <Tabs defaultValue="today">
-      <TabsList>
-        <TabsTrigger value="today">Today {rutes.todays.length}</TabsTrigger>
-        <TabsTrigger value="all">All {rutes.all.length}</TabsTrigger>
-      </TabsList>
-      <TabsContent value="today">
-        <DataTable
-          searchKey="name"
-          data={rutes.todays}
-          columns={ruteColumns}
-        />
-      </TabsContent>
-      <TabsContent value="all">
-        <DataTable
-          searchKey="name"
-          data={rutes.all}
-          columns={ruteColumns}
-        />
-      </TabsContent>
-    </Tabs>
+    <TabsTable isAdd={AddEnum.rute} columns={ruteColumns} searchKey="name" {...rutes} />
   );
 }

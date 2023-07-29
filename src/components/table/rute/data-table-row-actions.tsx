@@ -17,7 +17,7 @@ import {
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
 import { IRute } from "~/types/rute";
-import { ruteDelete } from "~/server/rute/delete";
+import { deleteRute } from "~/server/rute/delete";
 import { AlertDialogContentDelete } from "~/components/alerts/delete-alerts";
 
 
@@ -51,7 +51,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
       <AlertDialogContentDelete
         title={data.name}
         onContinue={() => {
-          ruteDelete(data.id, true);
+          deleteRute(data.id, true);
         }}
       />
     </AlertDialog>

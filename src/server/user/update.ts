@@ -1,0 +1,17 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { prisma } from "~/lib/db";
+
+export async function updateStatusDriver(id: string, status: boolean) {
+  const driver = await prisma.user.update({
+    where: { id },
+    data: {
+      status: status,
+    },
+  });
+
+  revalidatePath("/");
+
+  return driver;
+}

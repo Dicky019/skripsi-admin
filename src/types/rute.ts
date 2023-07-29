@@ -1,19 +1,18 @@
 import { z } from "zod";
+import { locationSchema } from "./location";
 
-// We're keeping a simple non-relational schema here.
-// IRL, you will have a schema for your data models.
-// export const taskSchema = z.object({
-//   id: z.string(),
-//   title: z.string(),
-//   status: z.string(),
-//   label: z.string(),
-//   priority: z.string(),
-// });
+export const ruteCreateSchema = z.object({
+  name: z.string(),
+  kode: z.string(),
+  color: z.string(),
+  locationAwal: locationSchema,
+  locationAkhir: locationSchema,
+});
 
-// export type Task = z.infer<typeof taskSchema>;
+export type IRuteCreate = z.infer<typeof ruteCreateSchema>;
 
-
-export interface IRute {
+export type IRute = {
+  id: string;
   locationAwal: {
     id: string;
     lat: string;
@@ -24,11 +23,9 @@ export interface IRute {
     lat: string;
     long: string;
   };
-  id: string;
   createdAt: Date;
   updatedAt: Date;
   name: string;
   kode: string;
   color: string;
 }
-

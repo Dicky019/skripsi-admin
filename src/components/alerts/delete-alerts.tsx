@@ -18,7 +18,7 @@ export function AlertDialogContentDelete({
   onContinue,
 }: IAlertDialogContentDelete) {
   return (
-    <AlertDialogContent>
+    <AlertDialogContent id="delete">
       <AlertDialogHeader>
         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
         <AlertDialogDescription>

@@ -1,9 +1,8 @@
 // import { Location, User, UserRole } from "@prisma/client";
-import { UserRole,Driver } from "@prisma/client";
+import { UserRole } from "@prisma/client";
 import { z } from "zod";
-import { IDriver } from "./driver";
 
-export const userSchema = z.object({
+export const userCreateSchema = z.object({
   name: z.string(),
   email: z.string(),
   password: z.string(),
@@ -11,6 +10,8 @@ export const userSchema = z.object({
   image: z.string().optional(),
   role: z.enum(["admin", "driver", "passenger"]),
 });
+
+export type IUserCreate = z.infer<typeof userCreateSchema>;
 
 export interface IUser {
   id: string;

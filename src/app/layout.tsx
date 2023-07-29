@@ -7,7 +7,9 @@ import { cn } from "~/lib/utils";
 import { Metadata } from "next";
 import { siteConfig } from "~/config/site";
 import NextAuthProvider from "~/components/next-auth-provider";
-import { Toaster } from "~/components/ui/toaster"
+import { Toaster } from "~/components/ui/toaster";
+
+import Favicon from "/public/favicon.ico";
 
 export const metadata: Metadata = {
   title: {
@@ -20,10 +22,12 @@ export const metadata: Metadata = {
     { media: "(prefers-color-scheme: dark)", color: "black" },
   ],
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
+    icon: ["/favicon.ico?v=4"],
+    apple: ["/apple-touch-icon?v=4"],
+    shortcut: ["/apple-touch-icon"],
+    
   },
+  manifest : "/site.webmanifest"
 };
 
 interface RootLayoutProps {
