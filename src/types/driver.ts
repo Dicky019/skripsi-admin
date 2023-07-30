@@ -3,8 +3,7 @@ import { userCreateSchema } from "./user";
 import { ILocation } from "./location";
 import { UserRole } from "@prisma/client";
 
-export const driverSchema = z.object({
-  id: z.string(),
+export const driverCreateSchema = z.object({
   user: userCreateSchema,
   namaLengkap: z.string(),
   alamat: z.string(),
@@ -16,6 +15,8 @@ export const driverSchema = z.object({
   fotoKtp: z.string(),
   fotoMobil: z.string(),
 });
+
+export type IDriverCreate = z.infer<typeof driverCreateSchema>;
 
 export interface IDriver {
   id: string;

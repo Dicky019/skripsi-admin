@@ -14,8 +14,6 @@ interface CreateRuteProps {
 export async function createUser({ data }: CreateRuteProps) {
   if (!data) {
     const user = await fakerUser();
-    console.log({user});
-    
     revalidatePath("/users");
     return user;
   }

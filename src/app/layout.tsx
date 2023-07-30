@@ -1,5 +1,4 @@
 import "./globals.css";
-// import { Toaster } from "react-hot-toast";
 import { TailwindIndicator } from "~/components/tailwind-indicator";
 import { fontSans } from "~/lib/font";
 import { ThemeProvider } from "~/components/theme/theme-provider";
@@ -8,8 +7,6 @@ import { Metadata } from "next";
 import { siteConfig } from "~/config/site";
 import NextAuthProvider from "~/components/next-auth-provider";
 import { Toaster } from "~/components/ui/toaster";
-
-import Favicon from "/public/favicon.ico";
 
 export const metadata: Metadata = {
   title: {

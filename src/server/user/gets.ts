@@ -13,10 +13,14 @@ export async function getsUser() {
     },
   });
 
-  const todays = users.filter(({ createdAt }) => sameDay(createdAt, date));
+  const all = users.map(({ status, ...value }) => ({
+    ...value,
+    status: status ? "done" : "canceled",
+  }));
+  const todays = all.filter(({ createdAt }) => sameDay(createdAt, date));
 
   return {
-    all: users as IUser[],
-    todays : todays as IUser[],
+    all: all as IUser[],
+    todays: todays as IUser[],
   };
 }

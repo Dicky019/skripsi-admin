@@ -1,13 +1,12 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Checkbox } from "~/components/ui/checkbox";
 
 import { statuses } from "~/lib/data";
 import { DataTableColumnHeader } from "../data-table/data-table-column-header";
 import { IDriver } from "~/types/driver";
 import { Button } from "~/components/ui/button";
-import { SiCodereview } from "react-icons/si";
+import { AiOutlineFileSearch } from "react-icons/ai";
 import {
   HoverCard,
   HoverCardContent,
@@ -75,9 +74,7 @@ export const driverColumns: ColumnDef<IDriver>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="NIK" />
     ),
-    cell: ({ row }) => (
-      <div className="text-left">{row.getValue("nik")}41040130129301</div>
-    ),
+    cell: ({ row }) => <div className="text-left">{row.getValue("nik")}</div>,
   },
 
   {
@@ -85,24 +82,29 @@ export const driverColumns: ColumnDef<IDriver>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Alamat" />
     ),
-    cell: ({ row }) => (
-      <div className="flex items-center gap-x-2">
-        <div className="text-left max-w-[250px] line-clamp-2 font-medium">
-          {row.getValue("alamat")}
-        </div>
+    cell: ({ row }) => {
+      const alamat = row.getValue<string>("alamat");
+      return (
         <HoverCard>
-          <HoverCardTrigger>
-            <Button size="icon" variant="outline">
-              <SiCodereview />
-            </Button>
-          </HoverCardTrigger>
-          <HoverCardContent className="text-left">
-            <div className="font-semibold mb-1 text-lg">Alamat</div>
-            <div>{row.getValue("alamat")}</div>
-          </HoverCardContent>
+          <div className="flex items-end gap-x-2 ">
+            <div className="text-left max-w-[250px] line-clamp-2 font-medium">
+              {alamat}
+            </div>
+            {alamat.split(" ").length >= 9 && (
+              <HoverCardTrigger>
+                <Button variant="outline" size="icon">
+                  <AiOutlineFileSearch />
+                </Button>
+              </HoverCardTrigger>
+            )}
+            <HoverCardContent className="text-left">
+              <div className="font-semibold mb-1 text-lg">Alamat</div>
+              <div>{alamat}</div>
+            </HoverCardContent>
+          </div>
         </HoverCard>
-      </div>
-    ),
+      );
+    },
   },
   {
     accessorKey: "status",

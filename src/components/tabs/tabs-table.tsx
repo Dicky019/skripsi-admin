@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import { createRute } from "~/server/rute/create";
 import { AddEnum } from "~/lib/enum";
 import { createUser } from "~/server/user/create";
+import { createDriver } from "~/server/driver/create";
 
 interface TabsTableProps<TData, TValue> {
   todays: DataTableProps<TData, TValue>["data"];
@@ -29,12 +30,10 @@ export function TabsTable<TData, TValue>({
     }
 
     if (isAdd === AddEnum.driver) {
-      // createRute({});
+      createDriver({});
     }
 
     if (isAdd === AddEnum.user) {
-      console.log("AddEnum.user");
-      
       createUser({});
     }
   };
@@ -42,7 +41,7 @@ export function TabsTable<TData, TValue>({
   return (
     <Tabs defaultValue="today">
       <div className="flex flex-row justify-between">
-        {isAdd && <Button onClick={create}>create</Button>}
+        {isAdd !== undefined && <Button onClick={create}>create</Button>}
         <TabsList>
           <TabsTrigger value="today">Today {todays.length}</TabsTrigger>
           <TabsTrigger value="all">All {all.length}</TabsTrigger>

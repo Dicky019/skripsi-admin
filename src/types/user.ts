@@ -18,7 +18,7 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
-  status: boolean;
+  status: string;
   image?: string;
   role: UserRole;
   createdAt: Date;

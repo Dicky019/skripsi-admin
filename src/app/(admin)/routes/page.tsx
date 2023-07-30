@@ -13,6 +13,11 @@ export default async function Rute() {
   const rutes = await getsRute();
 
   return (
-    <TabsTable isAdd={AddEnum.rute} columns={ruteColumns} searchKey="name" {...rutes} />
+    <TabsTable
+      isAdd={AddEnum.rute}
+      columns={ruteColumns}
+      searchKey="name"
+      {...rutes}
+    />
   );
 }

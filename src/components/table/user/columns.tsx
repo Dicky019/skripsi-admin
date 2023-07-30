@@ -6,6 +6,7 @@ import { DataTableColumnHeader } from "../data-table/data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
 import { IUser } from "~/types/user";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { statuses } from "~/lib/data";
 // import {}
 
 export const userColumns: ColumnDef<IUser>[] = [
@@ -56,11 +57,26 @@ export const userColumns: ColumnDef<IUser>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
     ),
-    cell: ({ row }) => (
-      <div className="text-left">
-        {row.getValue<boolean>("status") ? "isActive" : "Non Active"}
-      </div>
-    ),
+    cell: ({ row }) => {
+      const value = row.original.status;
+      const status = statuses.find((status) => status.value === value);
+
+      if (!status) {
+        return null;
+      }
+
+      return (
+        <div className="flex w-[100px] items-center">
+          {status.icon && (
+            <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
+          )}
+          <span>{status.label}</span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
 
   {
