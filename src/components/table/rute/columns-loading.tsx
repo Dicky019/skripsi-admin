@@ -9,7 +9,7 @@ export const ruteColumnsLoading: ColumnDef<IRute>[] = [
     accessorKey: "kode",
     header: "Kode",
     cell: () => (
-      <Skeleton className="h-4 w-16" />
+      <Skeleton className="my-2 h-4 w-16" />
     ),
   },
   {
