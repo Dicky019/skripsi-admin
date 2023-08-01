@@ -1,13 +1,29 @@
 "use client";
 
-import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { DataTable, DataTableProps } from "../table/data-table";
 import { Button } from "../ui/button";
-import { createRute } from "~/server/rute/create";
 import { AddEnum } from "~/lib/enum";
-import { createUser } from "~/server/user/create";
-import { createDriver } from "~/server/driver/create";
+import {
+  // useContext,
+  experimental_useOptimistic as useOptimistic,
+  createContext,
+} from "react";
+import { DialogRute } from "../dialogs/rute-dialog";
+import { IRute, IRuteCreate, IRuteEdit } from "~/types/rute";
+import { editRute } from "~/server/rute/edit";
+import { createRute } from "~/server/rute/create";
+import { deleteRute } from "~/server/rute/delete";
+// import { createContext } from "vm";
+
+interface DataTableRowActionsProps {
+  onEdit: (data: IRute) => Promise<void>;
+  onDelete: (id: string) => Promise<void>;
+}
+
+export const TableRowActionContext = createContext<
+  DataTableRowActionsProps | undefined
+>(undefined);
 
 interface TabsTableProps<TData, TValue> {
   todays: DataTableProps<TData, TValue>["data"];
@@ -24,35 +40,99 @@ export function TabsTable<TData, TValue>({
   columns,
   isAdd,
 }: TabsTableProps<TData, TValue>) {
-  const create = () => {
-    if (isAdd === AddEnum.rute) {
-      createRute({});
+  const optimisticRute = (state: TData[], data: TData) => {
+    if (data as IRute) {
+      const newData = data as IRute;
+      const newState = state as IRute[];
+
+      return newState.map((v) =>
+        v.id === newData.id ? newData : v
+      ) as TData[];
     }
 
-    if (isAdd === AddEnum.driver) {
-      createDriver({});
+    if (data as String) {
+      const newData = data as String;
+      const newState = state as IRute[];
+
+      return newState.filter(({ id }) => id === newData) as TData[];
     }
 
-    if (isAdd === AddEnum.user) {
-      createUser({});
-    }
+    return [...state, data];
   };
 
+  const [optimisticTodays, actionOptimisticTodays] = useOptimistic(
+    todays,
+    optimisticRute
+  );
+
+  const [optimisticAll, actionOptimisticAll] = useOptimistic(
+    all,
+    optimisticRute
+  );
+
+  const addOptimistic = (data: TData) => {
+    actionOptimisticTodays(data);
+    actionOptimisticAll(data);
+  };
+
+  const addRute = async (data: IRuteCreate) => {
+    const result = await createRute({ data });
+    // const result = await editRute({ data });
+    addOptimistic(result as TData);
+  };
+
+  const updateRute = async (data: IRuteEdit) => {
+    // const result = await createRute({ data });
+    const result = await editRute({ data });
+    addOptimistic(result as TData);
+  };
+
+  const delRute = async (id: string) => {
+    // const result = await createRute({ data });
+    const result = await deleteRute(id);
+    addOptimistic(result as TData);
+  };
+
+  // const updateContex = createContext(updateRute);
+
+  // const tes = useContext(updateContex);
+
   return (
-    <Tabs defaultValue="today">
-      <div className="flex flex-row justify-between">
-        {isAdd !== undefined && <Button onClick={create}>create</Button>}
-        <TabsList>
-          <TabsTrigger value="today">Today {todays.length}</TabsTrigger>
-          <TabsTrigger value="all">All {all.length}</TabsTrigger>
-        </TabsList>
-      </div>
-      <TabsContent value="today">
-        <DataTable searchKey={searchKey} data={todays} columns={columns} />
-      </TabsContent>
-      <TabsContent value="all">
-        <DataTable searchKey={searchKey} data={all} columns={columns} />
-      </TabsContent>
-    </Tabs>
+    <TableRowActionContext.Provider
+      value={{
+        onDelete: delRute,
+        onEdit: updateRute,
+      }}
+    >
+      <Tabs defaultValue="today">
+        <div className="flex flex-row justify-between">
+          {isAdd === AddEnum.rute && (
+            <DialogRute onSubmit={(values) => addRute(values as IRuteCreate)}>
+              <Button>Create</Button>
+            </DialogRute>
+          )}
+          <TabsList>
+            <TabsTrigger value="today">Today {todays.length}</TabsTrigger>
+            <TabsTrigger value="all">All {all.length}</TabsTrigger>
+          </TabsList>
+        </div>
+        <TabsContent value="today">
+          <DataTable
+            searchKey={searchKey}
+            data={optimisticTodays}
+            columns={columns}
+          />
+        </TabsContent>
+        <TabsContent value="all">
+          <DataTable
+            searchKey={searchKey}
+            data={optimisticAll}
+            columns={columns}
+          />
+        </TabsContent>
+      </Tabs>
+    </TableRowActionContext.Provider>
   );
 }
+
+//

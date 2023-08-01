@@ -6,7 +6,8 @@ import { cn } from "~/lib/utils";
 import { Metadata } from "next";
 import { siteConfig } from "~/config/site";
 import NextAuthProvider from "~/components/next-auth-provider";
-import { Toaster } from "~/components/ui/toaster";
+import { Toaster as ShadcnToaster } from "~/components/ui/toaster";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: {
@@ -22,9 +23,8 @@ export const metadata: Metadata = {
     icon: ["/favicon.ico?v=4"],
     apple: ["/apple-touch-icon?v=4"],
     shortcut: ["/apple-touch-icon"],
-    
   },
-  manifest : "/site.webmanifest"
+  manifest: "/site.webmanifest",
 };
 
 interface RootLayoutProps {
@@ -44,9 +44,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NextAuthProvider>{children}</NextAuthProvider>
           <TailwindIndicator />
+          <ShadcnToaster />
           <Toaster />
         </ThemeProvider>
-        {/* <Toaster /> */}
       </body>
     </html>
   );

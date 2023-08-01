@@ -18,5 +18,4 @@ export async function getsRute() {
     all: rutes,
     todays,
   };
-
 }

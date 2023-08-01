@@ -12,20 +12,22 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-} from "~/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogTrigger } from "~/components/ui/alert-dialog";
 import { IRute } from "~/types/rute";
 import { deleteRute } from "~/server/rute/delete";
 import { AlertDialogContentDelete } from "~/components/alerts/delete-alerts";
 
-
 interface DataTableRowActionsProps {
   row: Row<IRute>;
+  // onEdit: (data: IRute) => Promise<void>;
+  // onDelete: (id: string) => Promise<void>;
 }
 
-export function DataTableRowActions({ row }: DataTableRowActionsProps) {
+export function DataTableRowActions({
+  row,
+  // onEdit,
+  // onDelete,
+}: DataTableRowActionsProps) {
   const data = row.original;
 
   return (

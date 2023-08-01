@@ -3,16 +3,14 @@
 import { faker } from "@faker-js/faker";
 import { revalidatePath } from "next/cache";
 import { prisma } from "~/lib/db";
-import { IRuteCreate } from "~/types/rute";
+import { IRute, IRuteCreate } from "~/types/rute";
 
 interface CreateRuteProps {
   data?: IRuteCreate;
   isRevalidatePath?: boolean;
 }
 
-export async function createRute({
-  data,
-}: CreateRuteProps) {
+export async function createRute({ data }: CreateRuteProps) {
   if (!data) {
     const rute = await fakerRute();
     revalidatePath("/routes");
@@ -31,11 +29,15 @@ export async function createRute({
         create: data.locationAkhir,
       },
     },
+    include: {
+      locationAkhir: true,
+      locationAwal: true,
+    },
   });
 
-    revalidatePath("/routes");
+  revalidatePath("/routes");
 
-  return rute;
+  return rute satisfies IRute;
 }
 
 export const fakerRute = async () => {
