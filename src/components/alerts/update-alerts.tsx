@@ -38,7 +38,7 @@ export function AlertDialogContentUpdate({
         </DialogDescription>
       </DialogHeader>
       <DialogFooter>
-        <DialogCancel>Cancel</DialogCancel>
+        <DialogCancel disabled={isLoading}>Cancel</DialogCancel>
         <DialogAction disabled={isLoading} onClick={onClick}> {isLoading && (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         )}  Continue</DialogAction>

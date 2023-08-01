@@ -27,7 +27,6 @@ export function AlertDialogContentDelete({
     setIsLoading(false);
   }
 
-
   return (
     <AlertDialogContent id="delete">
       <AlertDialogHeader>
@@ -38,7 +37,7 @@ export function AlertDialogContentDelete({
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
         <AlertDialogAction variant="destructive" disabled={isLoading} onClick={onClick}>
         {isLoading && (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

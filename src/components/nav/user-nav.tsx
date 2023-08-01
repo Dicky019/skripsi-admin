@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import {
@@ -14,17 +14,8 @@ import {
 
 import { HiOutlineLogout } from "react-icons/hi";
 import { Skeleton } from "~/components/ui/skeleton";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "~/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogTrigger } from "~/components/ui/alert-dialog";
+import { AlertDialogContentLogout } from "../alerts/logout-alerts";
 
 export function UserNav() {
   return (
@@ -55,32 +46,6 @@ export function UserNav() {
     </AlertDialog>
   );
 }
-
-const AlertDialogContentLogout = () => {
-  return (
-    <AlertDialogContent>
-      <AlertDialogHeader>
-        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-        <AlertDialogDescription>
-          This action cannot be undone. This will permanently delete your
-          account and remove your data from our servers.
-        </AlertDialogDescription>
-      </AlertDialogHeader>
-      <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction
-          onClick={() =>
-            void signOut({
-              callbackUrl: "/login",
-            })
-          }
-        >
-          Continue
-        </AlertDialogAction>
-      </AlertDialogFooter>
-    </AlertDialogContent>
-  );
-};
 
 export const UserAvatar = () => {
   const { data, status } = useSession({

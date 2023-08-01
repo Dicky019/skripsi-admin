@@ -99,7 +99,7 @@ export const FormLogin = () => {
         </div>
       </div>
 
-      <Button className="mb-2" size="lg" variant="outline">
+      <Button className="mb-2" disabled={isLoading} size="lg" variant="outline">
         {isLoading ?
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           : <FcGoogle className="mr-2 h-4 w-4" />
