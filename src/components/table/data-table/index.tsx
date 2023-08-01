@@ -31,13 +31,15 @@ import { DataTableToolbar } from "./data-table-toolbar";
 export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  searchKey : string;
+  searchKey: string;
+  isLoading?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   searchKey,
+  isLoading,
   // DataTableToolbar
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
@@ -72,7 +74,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar searchKey={searchKey} table={table} />
+      {!isLoading && <DataTableToolbar searchKey={searchKey} table={table} />}
       <div className="rounded-md border">
         <Table>
           <TableHeader >
@@ -84,9 +86,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}
@@ -123,7 +125,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      {!isLoading && <DataTablePagination table={table} />}
     </div>
   );
 }

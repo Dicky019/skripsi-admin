@@ -17,3 +17,7 @@ export const displayJam = (value: string) => {
   const jam = value.split("jam").join("").split("_").map(v => `${v}.00`).join("-");
   return `Jam ${jam}`;
 };
+
+export const delay = (delayInms : number) => {
+  return new Promise(resolve => setTimeout(resolve, delayInms));
+}
