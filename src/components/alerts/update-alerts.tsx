@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   DialogContent,
   DialogHeader,
@@ -7,16 +8,26 @@ import {
   DialogCancel,
   DialogAction,
 } from "~/components/ui/dialog";
+import { Icons } from "../icons";
 
 interface AlertDialogContentUpdate {
   title: string;
-  onContinue: () => void;
+  onContinue: () => Promise<void>;
 }
 
 export function AlertDialogContentUpdate({
   title,
   onContinue,
 }: AlertDialogContentUpdate) {
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  const onClick = async () => {
+    setIsLoading(true);
+    await onContinue();
+    setIsLoading(false);
+  }
+
   return (
     <DialogContent>
       <DialogHeader>
@@ -28,7 +39,9 @@ export function AlertDialogContentUpdate({
       </DialogHeader>
       <DialogFooter>
         <DialogCancel>Cancel</DialogCancel>
-        <DialogAction onClick={onContinue}>Continue</DialogAction>
+        <DialogAction disabled={isLoading} onClick={onClick}> {isLoading && (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        )}  Continue</DialogAction>
       </DialogFooter>
     </DialogContent>
   );

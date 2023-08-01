@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "~/lib/db";
 
-export async function updateStatusDriver(id: string, status: boolean) {
+export async function updateStatusUser(id: string, status: boolean) {
   const driver = await prisma.user.update({
     where: { id },
     data: {

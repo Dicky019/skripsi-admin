@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -7,16 +8,26 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "~/components/ui/alert-dialog";
+import { Icons } from "../icons";
 
 interface IAlertDialogContentDelete {
   title: string;
-  onContinue: () => void;
+  onContinue: () => Promise<void>;
 }
 
 export function AlertDialogContentDelete({
   title,
   onContinue,
 }: IAlertDialogContentDelete) {
+  const [isLoading, setIsLoading] = useState(false)
+
+  const onClick = async () => {
+    setIsLoading(true);
+    await onContinue();
+    setIsLoading(false);
+  }
+
+
   return (
     <AlertDialogContent id="delete">
       <AlertDialogHeader>
@@ -28,7 +39,11 @@ export function AlertDialogContentDelete({
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction variant="destructive" onClick={onContinue}>Continue</AlertDialogAction>
+        <AlertDialogAction variant="destructive" disabled={isLoading} onClick={onClick}>
+        {isLoading && (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          )}  Continue
+        </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   );

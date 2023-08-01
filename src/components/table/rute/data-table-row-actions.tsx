@@ -41,7 +41,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+          <DropdownMenuItem>Edit</DropdownMenuItem>
           <DropdownMenuSeparator />
           <AlertDialogTrigger asChild>
             <DropdownMenuItem>Delete</DropdownMenuItem>
@@ -50,8 +50,8 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
       </DropdownMenu>
       <AlertDialogContentDelete
         title={data.name}
-        onContinue={() => {
-          deleteRute(data.id, true);
+        onContinue={async () => {
+          await deleteRute(data.id, true);
         }}
       />
     </AlertDialog>

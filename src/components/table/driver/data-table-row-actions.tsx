@@ -25,6 +25,7 @@ import { AlertDialog, AlertDialogTrigger } from "~/components/ui/alert-dialog";
 import { AlertDialogContentDelete } from "~/components/alerts/delete-alerts";
 import { AlertDialogContentUpdate } from "~/components/alerts/update-alerts";
 import { updateStatusDriver } from "~/server/driver/update";
+import { DropdownMenuRadioItemStatuses } from "../data-table/data-table-dropdown-radio-item-statuses";
 
 interface DataTableRowActionsProps {
   row: Row<IDriver>;
@@ -61,14 +62,14 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         </DropdownMenu>
         <AlertDialogContentDelete
           title={data.namaLengkap}
-          onContinue={() => {
-            deleteDriver(data.id, true);
+          onContinue={async () => {
+            await deleteDriver(data.id, true);
           }}
         />
         <AlertDialogContentUpdate
           title={data.namaLengkap}
-          onContinue={() => {
-            updateStatusDriver(data.user.id, !(data.status == "done"));
+          onContinue={async () => {
+            await updateStatusDriver(data.user.id, !(data.status == "done"));
           }}
         />
       </AlertDialog>
@@ -76,24 +77,3 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   );
 }
 
-export const DropdownMenuRadioItemStatuses = ({
-  status,
-}: {
-  status: string;
-}) => (
-  <DropdownMenuRadioGroup value={status}>
-    {statuses.map((label) =>
-      label.value !== status ? (
-        <DialogTrigger key={label.value} id="update" asChild>
-          <DropdownMenuRadioItem value={label.value}>
-            {label.label}
-          </DropdownMenuRadioItem>
-        </DialogTrigger>
-      ) : (
-        <DropdownMenuRadioItem key={label.value} value={label.value}>
-          {label.label}
-        </DropdownMenuRadioItem>
-      )
-    )}
-  </DropdownMenuRadioGroup>
-);
