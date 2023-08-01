@@ -9,7 +9,7 @@ export const userColumnsLoading: ColumnDef<IUser>[] = [
     accessorKey: "image",
     header: "Image",
     cell: () => (
-      <Skeleton className="my-1 h-12 w-12 rounded-full" />
+      <Skeleton className="h-12 w-12 rounded-full" />
     ),
   },
   {

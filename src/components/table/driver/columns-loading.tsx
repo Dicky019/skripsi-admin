@@ -9,7 +9,7 @@ export const driverColumnsLoading: ColumnDef<IDriver>[] = [
     accessorKey: "namaLengkap",
     header: "Nama Lengkap",
     cell: () => (
-      <div className="my-1 flex items-center space-x-2">
+      <div className="flex items-center space-x-2">
         <Skeleton className="h-12 w-12 rounded-full" />
         <div className="space-y-2">
           <Skeleton className="h-4 w-[230px]" />
