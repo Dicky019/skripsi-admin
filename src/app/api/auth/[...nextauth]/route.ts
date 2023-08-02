@@ -3,51 +3,41 @@ import NextAuth from "next-auth";
 import { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "~/lib/db";
-import { compare } from "bcrypt";
+import { env } from "~/lib/env";
 
 const authOptions: NextAuthOptions = {
   session: {
-    strategy: 'jwt'
+    strategy: "jwt",
   },
   providers: [
     CredentialsProvider({
-      name: 'Sign in',
+      name: "Sign in",
       credentials: {
         email: {
-          label: 'Email',
-          type: 'email',
-          placeholder: 'hello@example.com'
+          label: "Email",
+          type: "email",
+          placeholder: "hello@example.com",
         },
-        password: { label: 'Password', type: 'password' }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) {
-          return null
+          return null;
         }
 
         const user = await prisma.user.findUnique({
           where: {
-            email: credentials.email
-          }
-        })
+            email: credentials.email,
+          },
+        });
 
-        if (!user) {
-          return null
+        if (!user && credentials.password === env.NEXTAUTH_PASSWORD_ADMIN) {
+          return null;
         }
 
-        const isPasswordValid = await compare(
-          credentials.password,
-          user.password,
-          
-        )
-
-        if (!isPasswordValid) {
-          return null
-        }
-
-        return user
-      }
-    })
+        return user;
+      },
+    }),
   ],
   callbacks: {
     session: ({ session, token }) => {
@@ -57,29 +47,28 @@ const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.id,
-          randomKey: token.randomKey
-        }
-      }
+          randomKey: token.randomKey,
+        },
+      };
     },
     jwt: ({ token, user }) => {
       // console.log('JWT Callback', { token, user })
       if (user) {
-        const u = user as unknown as any
+        const u = user as unknown as any;
         return {
           ...token,
           id: u.id,
-          randomKey: u.randomKey
-        }
+          randomKey: u.randomKey,
+        };
       }
-      return token
+      return token;
     },
-    
   },
   pages: {
-    signIn : "/login",
-    error : "/login",
-    signOut : "/login",
-  }
+    signIn: "/login",
+    error: "/login",
+    signOut: "/login",
+  },
 };
 
 const handler = NextAuth(authOptions);

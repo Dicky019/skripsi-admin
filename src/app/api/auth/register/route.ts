@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { signInFormSchema } from "~/types/auth";
-import * as bcrypt from "bcrypt";
 import { prisma } from "~/lib/db";
 import { UserRole } from "@prisma/client";
 
@@ -24,12 +23,11 @@ export async function POST(request: NextRequest) {
     data: {
       name: data.username,
       email: data.email,
-      password: await bcrypt.hash(data.password, 10),
       role: UserRole.admin,
     },
   });
 
-  const { password, ...result } = user;
+  const { ...result } = user;
 
   return NextResponse.json({
     code: "200",

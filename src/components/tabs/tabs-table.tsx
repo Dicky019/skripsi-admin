@@ -50,26 +50,16 @@ export function TabsTable<TData, TValue>({
     optimisticRute
   );
 
-  const addOptimistic = (data: TData) => {
+  const optimistic = (data: TData) => {
     actionOptimisticTodays(data);
     actionOptimisticAll(data);
   };
 
-  // const addRute = async (data: IRuteCreate) => {
-  //   const result = await createRute({ data });
-  //   // const result = await editRute({ data });
-  //   addOptimistic(result as TData);
-  // };
-
-  // const updateRute = async (data: IRuteEdit) => {
-  //   // const result = await createRute({ data });
-  //   const result = await editRute({ data });
-  //   addOptimistic(result as TData);
-  // };
-
   const delRute = async (id: string) => {
-    const result = await deleteRute(id);
-    addOptimistic(result as TData);
+    const state = optimisticAll as IRute[];
+    const del = state.filter((v) => id === v.id)[0] as TData;
+    optimistic(del);
+    await deleteRute(id);
   };
 
   return (
@@ -82,7 +72,9 @@ export function TabsTable<TData, TValue>({
         <div className="flex flex-row justify-between">
           {isAdd === AddEnum.rute && (
             // <DialogRute>
-            <Link href="/routes/create" className={buttonVariants()}>Create</Link>
+            <Link href="/routes/create" className={buttonVariants()}>
+              Create
+            </Link>
             // </DialogRute>
           )}
           <TabsList>

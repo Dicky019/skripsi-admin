@@ -17,7 +17,7 @@ export default function CardRuteForm({ data }: CardRuteFormProps) {
   return (
     <Card className="max-w-max">
       <CardHeader>
-        <CardTitle>Create project</CardTitle>
+        <CardTitle>{data ? "Edit Rute" : "Add Rute"}</CardTitle>
         <CardDescription>
           Make changes to here form. Click save when you&apos;re done.
         </CardDescription>

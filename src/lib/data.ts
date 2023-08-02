@@ -61,7 +61,7 @@ export const EmptyDriver: IDriver = {
     email: "",
     createdAt: new Date(),
     id: "",
-    password: "",
+    // password: "",
     role: "driver",
     updatedAt: new Date(),
   },

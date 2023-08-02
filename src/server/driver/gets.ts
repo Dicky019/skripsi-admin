@@ -35,7 +35,7 @@ const mappingDrivers = (values: MappingDriversProps) => {
       id: user?.id ?? "",
       email: user?.email ?? "",
       name: user?.name ?? "",
-      password: user?.password ?? "",
+      // password: user?.password ?? "",
       role: user?.role ?? UserRole.driver,
       createdAt: user?.createdAt ?? date,
       updatedAt: user?.updatedAt ?? date,

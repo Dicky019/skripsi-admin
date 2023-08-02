@@ -1,20 +1,16 @@
-// bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
-//     // Store hash in your password DB.
-// });
-
 import { NextRequest, NextResponse } from "next/server";
-import { signInFormSchema } from "~/types/auth";
-import * as bcrypt from "bcrypt";
 import { prisma } from "~/lib/db";
-import { UserRole } from "@prisma/client";
+import { z } from "zod";
+import { loginFormSchemaUser } from "~/types/auth";
+import { getUser } from "~/server/user/get";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
-  const signInForm = signInFormSchema.safeParse(body);
+  const loginInForm = loginFormSchemaUser.safeParse(body);
 
-  if (!signInForm.success) {
-    const errorsMassange = signInForm.error.formErrors.fieldErrors;
+  if (!loginInForm.success) {
+    const errorsMassange = loginInForm.error.formErrors.fieldErrors;
 
     return NextResponse.json({
       code: "400",
@@ -22,18 +18,18 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const data = signInForm.data;
+  const data = loginInForm.data;
 
-  const user = await prisma.user.create({
-    data: {
-      name: data.username,
-      email: data.email,
-      password: await bcrypt.hash(data.password, 10),
-      role: UserRole.admin,
-    },
-  });
+  const user = await getUser(data.email);
 
-  const { password, ...result } = user;
+  if (!user) {
+    return NextResponse.json({
+      code: "404",
+      errors: [{ email: "Email tidak ditemukan" }],
+    });
+  }
+
+  const { createdAt, updatedAt, ...result } = user;
 
   return NextResponse.json({
     code: "200",
