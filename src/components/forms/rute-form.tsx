@@ -1,3 +1,5 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { cn } from "~/lib/utils";
@@ -15,28 +17,19 @@ import {
   type IRute,
   ruteCreateSchema,
   IRuteCreate,
-  IRuteEdit,
 } from "~/types/rute";
 import { Input } from "~/components/ui/input";
 import toast from "react-hot-toast";
-import { useContext, useState } from "react";
-import { TableRowActionContext } from "../tabs/tabs-table";
+import { useTransition } from "react";
+import { createRute } from "~/server/rute/create";
+import { editRute } from "~/server/rute/edit";
 
 type RuteFormProps = {
   data?: IRute;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export function RuteForm({
-  className,
-  data,
-  ...props
-}: RuteFormProps) {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const actionContext = useContext(TableRowActionContext);
-
-  if (!actionContext) {
-    throw Error("actionContext null");
-  }
+export function RuteForm({ className, data, ...props }: RuteFormProps) {
+  const [isPending, startTransition] = useTransition();
 
   // 1. Define your form.
   const kodeStart = "Kode ";
@@ -50,31 +43,32 @@ export function RuteForm({
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: IRuteCreate) {
-    setIsLoading(true);
-    try {
-      const { kode, ...dataWithOutKode } = values;
-      const rute = { kode: kodeStart + kode.toUpperCase(), ...dataWithOutKode };
+  function onSubmit(values: IRuteCreate) {
+    startTransition(async () => {
+      try {
+        const { kode, ...dataWithOutKode } = values;
+        const rute = {
+          kode: kodeStart + kode,
+          ...dataWithOutKode,
+        };
 
-      if (data) {
-        await actionContext?.onEdit({ id: data.id, ...rute });
-        toast.success("Successfully Edit!");
-        setIsLoading(false);
-        return;
+        if (data) {
+          await editRute({ data: { ...rute, id: data.id } });
+          toast.success("Successfully Edit!");
+          return;
+        }
+        await createRute({ data: rute });
+        toast.success("Successfully Create!");
+      } catch (error) {
+        toast.error("There is something wrong!");
       }
-
-      await actionContext?.onCreate(rute);
-      toast.success("Successfully Create!");
-    } catch (error) {
-      toast.error("There is something wrong!");
-    }
-    setIsLoading(false);
+    });
   }
 
   const resetForm = () => form.reset();
 
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
+    <div className={cn("grid gap-6 max-w-96", className)} {...props}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid gap-2">
@@ -185,20 +179,20 @@ export function RuteForm({
             {/* End Location Akhir */}
 
             <div className="flex flex-col gap-4 my-4">
-              <Button disabled={isLoading} type="submit">
-                {isLoading && (
+              <Button disabled={isPending} type="submit">
+                {isPending && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 Save
               </Button>
 
               <Button
-                disabled={isLoading}
+                disabled={isPending}
                 variant="outline"
                 onClick={resetForm}
                 type="reset"
               >
-                {isLoading && (
+                {isPending && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 Clear

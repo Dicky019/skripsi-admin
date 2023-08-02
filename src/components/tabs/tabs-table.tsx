@@ -2,23 +2,18 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { DataTable, DataTableProps } from "../table/data-table";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { AddEnum } from "~/lib/enum";
 import {
-  // useContext,
   experimental_useOptimistic as useOptimistic,
   createContext,
 } from "react";
 import { DialogRute } from "../dialogs/rute-dialog";
-import { IRute, IRuteCreate, IRuteEdit } from "~/types/rute";
-import { editRute } from "~/server/rute/edit";
-import { createRute } from "~/server/rute/create";
+import { IRute } from "~/types/rute";
 import { deleteRute } from "~/server/rute/delete";
-// import { createContext } from "vm";
+import Link from "next/link";
 
 interface DataTableRowActionsProps {
-  onCreate: (data: IRuteCreate) => Promise<void>;
-  onEdit: (data: IRuteEdit) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
 }
 
@@ -42,28 +37,7 @@ export function TabsTable<TData, TValue>({
   isAdd,
 }: TabsTableProps<TData, TValue>) {
   const optimisticRute = (state: TData[], data: TData) => {
-
-    // if (data as String) {
-    //   const deleteId = data as String;
-    //   const newState = state as IRute[];
-
-    //   console.log({ deleteId });
-
-    //   return newState.filter(({ id }) => id !== deleteId) as TData[];
-    // }
-
-    // if (data as IRute) {
-    //   const editData = data as IRute;
-    //   const newState = state as IRute[];
-
-    //   console.log({ editData });
-
-    //   return newState.map((v) =>
-    //     v.id === editData.id ? editData : v
-    //   ) as TData[];
-    // }
-
-    return [...state, data];
+    return state.filter((v) => data !== v) as TData[];
   };
 
   const [optimisticTodays, actionOptimisticTodays] = useOptimistic(
@@ -81,38 +55,35 @@ export function TabsTable<TData, TValue>({
     actionOptimisticAll(data);
   };
 
-  const addRute = async (data: IRuteCreate) => {
-    const result = await createRute({ data });
-    // const result = await editRute({ data });
-    addOptimistic(result as TData);
-  };
+  // const addRute = async (data: IRuteCreate) => {
+  //   const result = await createRute({ data });
+  //   // const result = await editRute({ data });
+  //   addOptimistic(result as TData);
+  // };
 
-  const updateRute = async (data: IRuteEdit) => {
-    // const result = await createRute({ data });
-    const result = await editRute({ data });
-    addOptimistic(result as TData);
-  };
+  // const updateRute = async (data: IRuteEdit) => {
+  //   // const result = await createRute({ data });
+  //   const result = await editRute({ data });
+  //   addOptimistic(result as TData);
+  // };
 
   const delRute = async (id: string) => {
-    // const result = await createRute({ data });
     const result = await deleteRute(id);
-    addOptimistic(result.id as TData);
+    addOptimistic(result as TData);
   };
 
   return (
     <TableRowActionContext.Provider
       value={{
-        onCreate: addRute,
         onDelete: delRute,
-        onEdit: updateRute,
       }}
     >
       <Tabs defaultValue="today">
         <div className="flex flex-row justify-between">
           {isAdd === AddEnum.rute && (
-            <DialogRute>
-              <Button>Create</Button>
-            </DialogRute>
+            // <DialogRute>
+            <Link href="/routes/create" className={buttonVariants()}>Create</Link>
+            // </DialogRute>
           )}
           <TabsList>
             <TabsTrigger value="today">Today {todays.length}</TabsTrigger>

@@ -13,25 +13,19 @@ import {
 } from "~/components/ui/dropdown-menu";
 
 import { AlertDialog, AlertDialogTrigger } from "~/components/ui/alert-dialog";
-import { IRute, IRuteCreate, IRuteEdit } from "~/types/rute";
-import { deleteRute } from "~/server/rute/delete";
+import { IRute } from "~/types/rute";
 import { AlertDialogContentDelete } from "~/components/alerts/delete-alerts";
 import { useContext } from "react";
 import { TableRowActionContext } from "~/components/tabs/tabs-table";
 import { DialogRute } from "~/components/dialogs/rute-dialog";
-import { Dialog, DialogTrigger } from "~/components/ui/dialog";
+import { Dialog } from "~/components/ui/dialog";
+import Link from "next/link";
 
 interface DataTableRowActionsProps {
   row: Row<IRute>;
-  // onEdit: (data: IRute) => Promise<void>;
-  // onDelete: (id: string) => Promise<void>;
 }
 
-export function DataTableRowActions({
-  row,
-}: // onEdit,
-// onDelete,
-DataTableRowActionsProps) {
+export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   const data = row.original;
   const actionContext = useContext(TableRowActionContext);
 
@@ -40,9 +34,8 @@ DataTableRowActionsProps) {
   }
 
   return (
-    
-      <AlertDialog>
-        <Dialog>
+    <AlertDialog>
+      <Dialog>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -54,9 +47,11 @@ DataTableRowActionsProps) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-[160px]">
-            <DialogTrigger asChild>
+            {/* <DialogTrigger asChild> */}
+            <Link href={`/routes/edit/${data.id}`}>
               <DropdownMenuItem>Edit</DropdownMenuItem>
-            </DialogTrigger>
+            </Link>
+            {/* </DialogTrigger> */}
             <DropdownMenuSeparator />
             <AlertDialogTrigger asChild>
               <DropdownMenuItem>Delete</DropdownMenuItem>
@@ -67,10 +62,8 @@ DataTableRowActionsProps) {
           title={data.name}
           onContinue={async () => await actionContext.onDelete(data.id)}
         />
-        <DialogRute
-          data={data}
-        />
-    </Dialog>
-      </AlertDialog>
+        <DialogRute data={data} />
+      </Dialog>
+    </AlertDialog>
   );
 }

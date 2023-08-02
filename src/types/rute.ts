@@ -5,7 +5,7 @@ const regColor = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i;
 
 export const ruteCreateSchema = z.object({
   name: z.string(),
-  kode: z.string().max(1),
+  kode: z.string().max(1).transform((v) => v.toUpperCase()),
   color: z.string().regex(regColor),
   locationAwal: locationSchema,
   locationAkhir: locationSchema,
