@@ -16,6 +16,8 @@ export const driverCreateSchema = z.object({
   fotoMobil: z.string(),
 });
 
+export const driverGetSchema = z.string()
+
 export type IDriverCreate = z.infer<typeof driverCreateSchema>;
 
 export interface IDriver {
