@@ -5,16 +5,11 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "~/lib/db";
 import { IDriverCreate } from "~/types/driver";
 
-interface CreateDriverProps {
-  data?: IDriverCreate;
-  isRevalidatePath?: boolean;
-}
-
-export async function createDriver({ data }: CreateDriverProps) {
+export async function createDriver(data?: IDriverCreate) {
   if (!data) {
-    const rute = await fakerDriver();
-    revalidatePath("/routes");
-    return rute;
+    const driver = await fakerDriver();
+    revalidatePath("/");
+    return driver;
   }
 
   const { user, ...newData } = data;
@@ -23,12 +18,15 @@ export async function createDriver({ data }: CreateDriverProps) {
     data: {
       ...newData,
       user: {
-        create: user,
+        create: { ...user, role: "driver" },
       },
+    },
+    include: {
+      user: true,
     },
   });
 
-  revalidatePath("/routes");
+  revalidatePath("/");
 
   return driver;
 }
@@ -38,7 +36,6 @@ export const fakerDriver = async () => {
     email: faker.internet.email(),
     name: faker.internet.displayName(),
     password: faker.internet.password(),
-    role: "passenger",
     status: faker.datatype.boolean(),
     image: faker.datatype.boolean() ? faker.internet.avatar() : undefined,
   };
@@ -47,15 +44,13 @@ export const fakerDriver = async () => {
     user: {
       email: dataFaker.email,
       name: dataFaker.name,
-      password: dataFaker.password,
       status: dataFaker.status,
       image: dataFaker.image,
-      role: "driver",
     },
     alamat: faker.location.streetAddress(),
     fotoKtp: faker.image.avatarGitHub(),
     fotoMobil: faker.image.urlLoremFlickr({ category: "car" }),
-    maxPenumpang: faker.number.int({ max: 10 ,min: 8 }),
+    maxPenumpang: faker.number.int({ max: 10, min: 8 }),
     namaLengkap: faker.person.fullName(),
     nik: faker.phone.number("################"),
     noHp: faker.phone.number("08##-####-####"),
@@ -66,13 +61,13 @@ export const fakerDriver = async () => {
     })} ${faker.string.alpha(2).toUpperCase()}`,
   };
 
-  const rute = await prisma.driver.create({
+  const driver = await prisma.driver.create({
     data: {
       ...newData,
       user: {
-        create: user,
+        create: { ...user, role: "driver" },
       },
     },
   });
-  return rute;
+  return driver;
 };

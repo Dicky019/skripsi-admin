@@ -1,52 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDriver } from "~/server/driver/get";
+import { createDriver } from "~/server/driver/create";
+import { driverCreateSchema } from "~/types/driver";
 
 
+export async function POST(request: NextRequest) {
+  const body = await request.json();
 
-export async function GET(req: NextRequest) {
-  const data = await getDriver("");
+  const driverForm = driverCreateSchema.safeParse(body);
 
-  // const headersList = req.headers.get("");
+  if (!driverForm.success) {
+    const errorsMassange = driverForm.error.formErrors.fieldErrors;
+    return NextResponse.json({
+      code: "400",
+      errors: errorsMassange,
+    });
+  }
 
-  // console.log({ headersList });
+  const data = driverForm.data;
+
+  const driver = await createDriver(data);
+
+  if (!driver) {
+    return NextResponse.json({
+      code: "404",
+      errors: [{ driver: "Driver tidak ditemukan" }],
+    });
+  }
+
+  const { ...result } = driver;
 
   return NextResponse.json({
     code: "200",
-    data: {
-      ...data,
-    },
+    data: result,
   });
+  
 }
-
-// export async function POST(request: NextRequest) {
-//   const body = await request.json();
-
-//   const loginInForm = loginFormSchemaUser.safeParse(body);
-
-//   if (!loginInForm.success) {
-//     const errorsMassange = loginInForm.error.formErrors.fieldErrors;
-
-//     return NextResponse.json({
-//       code: "400",
-//       errors: errorsMassange,
-//     });
-//   }
-
-//   const data = loginInForm.data;
-
-//   const user = await getUser(data.email);
-
-//   if (!user) {
-//     return NextResponse.json({
-//       code: "404",
-//       errors: [{ email: "Email tidak ditemukan" }],
-//     });
-//   }
-
-//   const { createdAt, updatedAt, ...result } = user;
-
-//   return NextResponse.json({
-//     code: "200",
-//     data: result,
-//   });
-// }

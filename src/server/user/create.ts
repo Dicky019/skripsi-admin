@@ -29,7 +29,6 @@ export const fakerUser = async () => {
   const dataFaker: IUserCreate = {
     email: faker.internet.email(),
     name: faker.internet.displayName(),
-    password: faker.internet.password(),
     role: "passenger",
     status: faker.datatype.boolean(),
     image: faker.datatype.boolean() ? faker.internet.avatar() : undefined,

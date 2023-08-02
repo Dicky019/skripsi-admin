@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { signInFormSchema } from "~/types/auth";
 import { prisma } from "~/lib/db";
-import { UserRole } from "@prisma/client";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -21,9 +20,11 @@ export async function POST(request: NextRequest) {
 
   const user = await prisma.user.create({
     data: {
-      name: data.username,
+      name: data.name,
       email: data.email,
-      role: UserRole.admin,
+      image: data.image,
+      role: "passenger",
+      status: true,
     },
   });
 

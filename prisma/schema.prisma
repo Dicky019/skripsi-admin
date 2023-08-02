@@ -23,7 +23,7 @@ model Driver {
   fotoKtp      String
   fotoMobil    String
   user         User?
-  location     Location? @relation(fields: [locationId], references: [id])
+  location     Location? @relation(fields: [locationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   locationId   String?   @unique
 }
 
@@ -58,8 +58,8 @@ model User {
   // password  String?
   status    Boolean  @default(false)
   image     String?
-  driver    Driver?   @relation(fields: [driverId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  driverId  String?   @unique
+  driver    Driver?  @relation(fields: [driverId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  driverId  String?  @unique
   role      UserRole
 }
 

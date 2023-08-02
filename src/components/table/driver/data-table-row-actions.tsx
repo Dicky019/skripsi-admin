@@ -63,7 +63,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         <AlertDialogContentDelete
           title={data.namaLengkap}
           onContinue={async () => {
-            await deleteDriver(data.id, true);
+            await deleteDriver(data.id);
           }}
         />
         <AlertDialogContentUpdate

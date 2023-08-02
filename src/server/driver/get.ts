@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { prisma } from "~/lib/db";
 
 export async function getDriver(id: string) {
@@ -9,8 +10,11 @@ export async function getDriver(id: string) {
     },
     include: {
       user: true,
+      location: true,
     },
   });
+
+  revalidatePath("/");
 
   return drivers;
 }

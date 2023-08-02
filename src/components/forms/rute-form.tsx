@@ -190,7 +190,7 @@ export function RuteForm({ className, data, ...props }: RuteFormProps) {
                 disabled={isPending}
                 variant="outline"
                 onClick={resetForm}
-                type="reset"
+                type="button"
               >
                 {isPending && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

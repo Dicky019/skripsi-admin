@@ -5,7 +5,6 @@ import { z } from "zod";
 export const userCreateSchema = z.object({
   name: z.string(),
   email: z.string(),
-  password: z.string(),
   status: z.boolean(),
   image: z.string().optional(),
   role: z.enum(["admin", "driver", "passenger"]),
