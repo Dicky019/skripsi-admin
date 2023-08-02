@@ -32,7 +32,7 @@ export const ruteColumns: ColumnDef<IRute>[] = [
           style={{
             backgroundColor: color,
           }}
-          className="rounded-md p-2 w-24"
+          className="rounded-md p-2 w-24 border-2 border-ring"
         >
           {color.toUpperCase()}
         </div>

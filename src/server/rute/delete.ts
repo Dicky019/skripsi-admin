@@ -2,18 +2,20 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "~/lib/db";
+import { IRute } from "~/types/rute";
 
 export async function deleteRute(
   id: string,
-  isRevalidatePath: boolean = false
 ) {
-  const rutes = await prisma.rute.delete({
+  const rute = await prisma.rute.delete({
     where: { id },
+    include: {
+      locationAkhir: true,
+      locationAwal: true,
+    },
   });
-  
-  if (isRevalidatePath) {
-    revalidatePath("/rute");
-  }
 
-  return rutes;
+  revalidatePath("/rute");
+
+  return rute satisfies IRute;
 }

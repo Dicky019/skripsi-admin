@@ -17,7 +17,7 @@ import { deleteRute } from "~/server/rute/delete";
 // import { createContext } from "vm";
 
 interface DataTableRowActionsProps {
-  onEdit: (data: IRute) => Promise<void>;
+  onEdit: (data: IRuteEdit) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
 }
 
@@ -53,6 +53,9 @@ export function TabsTable<TData, TValue>({
     if (data as String) {
       const newData = data as String;
       const newState = state as IRute[];
+
+      console.log({newData});
+      
 
       return newState.filter(({ id }) => id === newData) as TData[];
     }
@@ -90,12 +93,8 @@ export function TabsTable<TData, TValue>({
   const delRute = async (id: string) => {
     // const result = await createRute({ data });
     const result = await deleteRute(id);
-    addOptimistic(result as TData);
+    addOptimistic(id as TData);
   };
-
-  // const updateContex = createContext(updateRute);
-
-  // const tes = useContext(updateContex);
 
   return (
     <TableRowActionContext.Provider
