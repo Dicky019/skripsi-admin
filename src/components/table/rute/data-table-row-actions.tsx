@@ -40,8 +40,9 @@ DataTableRowActionsProps) {
   }
 
   return (
-    <Dialog>
+    
       <AlertDialog>
+        <Dialog>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -68,9 +69,8 @@ DataTableRowActionsProps) {
         />
         <DialogRute
           data={data}
-          onSubmit={(values) => actionContext.onEdit(values as IRuteEdit)}
         />
-      </AlertDialog>
     </Dialog>
+      </AlertDialog>
   );
 }

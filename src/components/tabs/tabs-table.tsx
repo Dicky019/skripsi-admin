@@ -17,6 +17,7 @@ import { deleteRute } from "~/server/rute/delete";
 // import { createContext } from "vm";
 
 interface DataTableRowActionsProps {
+  onCreate: (data: IRuteCreate) => Promise<void>;
   onEdit: (data: IRuteEdit) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
 }
@@ -41,24 +42,26 @@ export function TabsTable<TData, TValue>({
   isAdd,
 }: TabsTableProps<TData, TValue>) {
   const optimisticRute = (state: TData[], data: TData) => {
-    if (data as IRute) {
-      const newData = data as IRute;
-      const newState = state as IRute[];
 
-      return newState.map((v) =>
-        v.id === newData.id ? newData : v
-      ) as TData[];
-    }
+    // if (data as String) {
+    //   const deleteId = data as String;
+    //   const newState = state as IRute[];
 
-    if (data as String) {
-      const newData = data as String;
-      const newState = state as IRute[];
+    //   console.log({ deleteId });
 
-      console.log({newData});
-      
+    //   return newState.filter(({ id }) => id !== deleteId) as TData[];
+    // }
 
-      return newState.filter(({ id }) => id === newData) as TData[];
-    }
+    // if (data as IRute) {
+    //   const editData = data as IRute;
+    //   const newState = state as IRute[];
+
+    //   console.log({ editData });
+
+    //   return newState.map((v) =>
+    //     v.id === editData.id ? editData : v
+    //   ) as TData[];
+    // }
 
     return [...state, data];
   };
@@ -93,12 +96,13 @@ export function TabsTable<TData, TValue>({
   const delRute = async (id: string) => {
     // const result = await createRute({ data });
     const result = await deleteRute(id);
-    addOptimistic(id as TData);
+    addOptimistic(result.id as TData);
   };
 
   return (
     <TableRowActionContext.Provider
       value={{
+        onCreate: addRute,
         onDelete: delRute,
         onEdit: updateRute,
       }}
@@ -106,7 +110,7 @@ export function TabsTable<TData, TValue>({
       <Tabs defaultValue="today">
         <div className="flex flex-row justify-between">
           {isAdd === AddEnum.rute && (
-            <DialogRute onSubmit={(values) => addRute(values as IRuteCreate)}>
+            <DialogRute>
               <Button>Create</Button>
             </DialogRute>
           )}

@@ -15,7 +15,7 @@ export async function deleteRute(
     },
   });
 
-  revalidatePath("/rute");
+  revalidatePath("/routes");
 
   return rute satisfies IRute;
 }

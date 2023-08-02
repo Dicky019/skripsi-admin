@@ -19,20 +19,24 @@ import {
 } from "~/types/rute";
 import { Input } from "~/components/ui/input";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { TableRowActionContext } from "../tabs/tabs-table";
 
 type RuteFormProps = {
   data?: IRute;
-  handleSubmit: (values: IRuteEdit | IRuteCreate) => Promise<void>;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export function RuteForm({
   className,
   data,
-  handleSubmit,
   ...props
 }: RuteFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const actionContext = useContext(TableRowActionContext);
+
+  if (!actionContext) {
+    throw Error("actionContext null");
+  }
 
   // 1. Define your form.
   const kodeStart = "Kode ";
@@ -50,24 +54,17 @@ export function RuteForm({
     setIsLoading(true);
     try {
       const { kode, ...dataWithOutKode } = values;
+      const rute = { kode: kodeStart + kode.toUpperCase(), ...dataWithOutKode };
 
-      if (!data) {
-        await handleSubmit({
-          kode: kodeStart + kode.toUpperCase(),
-          ...dataWithOutKode,
-        });
-        toast.success("Successfully Create!");
+      if (data) {
+        await actionContext?.onEdit({ id: data.id, ...rute });
+        toast.success("Successfully Edit!");
         setIsLoading(false);
         return;
       }
 
-      await handleSubmit({
-        id: data.id,
-        kode: kodeStart + kode.toUpperCase(),
-        ...dataWithOutKode,
-      });
-
-      toast.success("Successfully Edit!");
+      await actionContext?.onCreate(rute);
+      toast.success("Successfully Create!");
     } catch (error) {
       toast.error("There is something wrong!");
     }
@@ -199,6 +196,7 @@ export function RuteForm({
                 disabled={isLoading}
                 variant="outline"
                 onClick={resetForm}
+                type="reset"
               >
                 {isLoading && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
