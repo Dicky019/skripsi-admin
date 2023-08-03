@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "~/lib/db";
-import { z } from "zod";
 import { loginFormSchemaUser } from "~/types/auth";
 import { getUser } from "~/server/user/get";
 
@@ -25,7 +23,7 @@ export async function POST(request: NextRequest) {
   if (!user) {
     return NextResponse.json({
       code: "404",
-      errors: [{ email: "Email tidak ditemukan" }],
+      errors: [{ email: ["Email tidak ditemukan"] }],
     });
   }
 

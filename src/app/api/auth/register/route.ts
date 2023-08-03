@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { signInFormSchema } from "~/types/auth";
 import { prisma } from "~/lib/db";
+import { cekUserDriver } from "~/server/driver/update";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -17,6 +18,15 @@ export async function POST(request: NextRequest) {
   }
 
   const data = signInForm.data;
+
+  const cekUser = await cekUserDriver(data.email ?? "");
+
+  if (cekUser) {
+    return NextResponse.json({
+      code: "400",
+      errors: [{ user: ["Email ini sudah ada"] }],
+    });
+  }
 
   const user = await prisma.user.create({
     data: {

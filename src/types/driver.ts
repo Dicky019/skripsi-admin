@@ -5,7 +5,13 @@ import { UserRole } from "@prisma/client";
 export const userCreateSchema = z.object({
   name: z.string(),
   email: z.string(),
-  status: z.boolean(),
+  image: z.string().optional(),
+});
+
+export const userEditSchema = z.object({
+  id: z.string(),
+  name: z.string().optional(),
+  email: z.string().optional(),
   image: z.string().optional(),
 });
 
@@ -24,8 +30,7 @@ export const driverCreateSchema = z.object({
 
 export const driverEditSchema = z.object({
   id: z.string(),
-  userId: z.string(),
-  user: userCreateSchema,
+  user: userEditSchema,
   namaLengkap: z.string(),
   alamat: z.string(),
   nik: z.string(),
@@ -35,8 +40,6 @@ export const driverEditSchema = z.object({
   maxPenumpang: z.number(),
   fotoKtp: z.string(),
   fotoMobil: z.string(),
-  locationId: z.string().optional().nullable(),
-  location: locationSchema.optional().nullable(),
 });
 
 export const driverGetSchema = z.string();

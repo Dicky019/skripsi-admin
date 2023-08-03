@@ -65,28 +65,28 @@ export async function updateLocationDriver(
   return locations;
 }
 
+export async function cekUserDriver(email: string) {
+  const findUser = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  return findUser;
+}
+
 export async function updateDriver(data: IDriverEdit) {
-  const { user, userId, location, locationId, id: driverId, ...driver } = data;
+  const { user, id, ...driver } = data;
 
   await prisma.user.update({
     where: {
-      id: userId,
+      driverId: id,
     },
     data: user,
   });
 
-  if (locationId && location) {
-    await prisma.location.upsert({
-      where: {
-        id: locationId,
-      },
-      update: location,
-      create: location,
-    });
-  }
-
   const resutl = await prisma.driver.update({
-    where: { id: driverId },
+    where: { id },
     data: driver,
     include: {
       location: true,

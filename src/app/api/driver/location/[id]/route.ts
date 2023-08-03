@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateLocationDriver } from "~/server/driver/update";
-import { driverEditSchema } from "~/types/driver";
 import { locationSchema } from "~/types/location";
 
 type getIdParams = {
@@ -27,7 +26,7 @@ export async function PUT(request: NextRequest, { params }: getIdParams) {
   if (!location) {
     return NextResponse.json({
       code: "404",
-      errors: [{ driver: "Driver tidak ditemukan" }],
+      errors: [{ driver: ["Driver tidak ditemukan"] }],
     });
   }
 

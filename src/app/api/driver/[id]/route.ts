@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDriver } from "~/server/driver/get";
-import { updateDriver } from "~/server/driver/update";
+import { cekUserDriver, updateDriver } from "~/server/driver/update";
 import { driverEditSchema } from "~/types/driver";
 
 type getIdParams = {
@@ -15,7 +15,7 @@ export async function GET(request: NextRequest, { params }: getIdParams) {
   if (!data) {
     return NextResponse.json({
       code: "404",
-      errors: [{ driver: "Driver tidak ditemukan" }],
+      errors: [{ driver: ["Driver tidak ditemukan"] }],
     });
   }
 
@@ -25,10 +25,10 @@ export async function GET(request: NextRequest, { params }: getIdParams) {
   });
 }
 
-export async function PUT(request: NextRequest) {
+export async function PUT(request: NextRequest, { params }: getIdParams) {
   const body = await request.json();
 
-  const driverForm = driverEditSchema.safeParse(body);
+  const driverForm = driverEditSchema.safeParse({ id: params.id, ...body });
 
   if (!driverForm.success) {
     const errorsMassange = driverForm.error.formErrors.fieldErrors;
@@ -39,13 +39,21 @@ export async function PUT(request: NextRequest) {
   }
 
   const data = driverForm.data;
+  const cekUser = await cekUserDriver(data.user.email ?? "");
+
+  if (cekUser) {
+    return NextResponse.json({
+      code: "400",
+      errors: [{ user: ["Email ini sudah ada"] }],
+    });
+  }
 
   const driver = await updateDriver(data);
 
   if (!driver) {
     return NextResponse.json({
       code: "404",
-      errors: [{ driver: "Driver tidak ditemukan" }],
+      errors: [{ driver: ["Driver tidak ditemukan"] }],
     });
   }
 
@@ -55,5 +63,4 @@ export async function PUT(request: NextRequest) {
     code: "200",
     data: result,
   });
-  
 }

@@ -18,7 +18,7 @@ export async function createDriver(data?: IDriverCreate) {
     data: {
       ...newData,
       user: {
-        create: { ...user, role: "driver" },
+        create: { ...user, role: "driver", status: false },
       },
     },
     include: {
@@ -44,7 +44,7 @@ export const fakerDriver = async () => {
     user: {
       email: dataFaker.email,
       name: dataFaker.name,
-      status: dataFaker.status,
+      // status: dataFaker.status,
       image: dataFaker.image,
     },
     alamat: faker.location.streetAddress(),
