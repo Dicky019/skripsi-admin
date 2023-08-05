@@ -48,6 +48,16 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  if (!user.status) {
+    return NextResponse.json(
+      {
+        code: "404",
+        errors: [{ status: ["Status Non Active"] }],
+      },
+      { status: 404 }
+    );
+  }
+
   return NextResponse.json({
     code: "200",
     data: user,
