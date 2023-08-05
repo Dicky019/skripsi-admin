@@ -5,6 +5,19 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "~/lib/db";
 import { env } from "~/lib/env";
 
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+    name: string;
+    email: string;
+    picture: string;
+    sub: string;
+    iat: number;
+    exp: number;
+    jti: string;
+  }
+}
+
 const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",

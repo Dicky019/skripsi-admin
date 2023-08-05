@@ -1,36 +1,55 @@
 import { NextRequest, NextResponse } from "next/server";
-import { loginFormSchemaUser } from "~/types/auth";
 import { getUser } from "~/server/user/get";
+import { verifyJwt } from "~/lib/jwt";
+import { JWT } from "next-auth/jwt";
 
-export async function POST(request: NextRequest) {
-  const body = await request.json();
+export async function GET(request: NextRequest) {
+  const token = request.headers.get("authorization");
 
-  const loginInForm = loginFormSchemaUser.safeParse(body);
+  const authToken = (token || "").split("Bearer ").at(1);
 
-  if (!loginInForm.success) {
-    const errorsMassange = loginInForm.error.formErrors.fieldErrors;
+  console.log({ authToken, token });
 
-    return NextResponse.json({
-      code: "400",
-      errors: errorsMassange,
-    });
+  if (!authToken) {
+    return NextResponse.json(
+      {
+        code: "401",
+        status: "Unauthorized",
+        errors: [{ token: ["Token Null"] }],
+      },
+      { status: 401 }
+    );
   }
 
-  const data = loginInForm.data;
+  const JWT = verifyJwt(authToken) as JWT | undefined;
+  if (!JWT) {
+    return NextResponse.json(
+      {
+        code: "401",
+        status: "Unauthorized",
+        errors: [{ token: ["Invalid Auth Token"] }],
+      },
+      { status: 401 }
+    );
+  }
 
-  const user = await getUser(data.email);
+  const user = await getUser(JWT.email);
+
+  console.log({JWT,user});
+  
 
   if (!user) {
-    return NextResponse.json({
-      code: "404",
-      errors: [{ email: ["Email tidak ditemukan"] }],
-    });
+    return NextResponse.json(
+      {
+        code: "404",
+        errors: [{ email: ["Email tidak ditemukan"] }],
+      },
+      { status: 404 }
+    );
   }
-
-  const { createdAt, updatedAt, ...result } = user;
 
   return NextResponse.json({
     code: "200",
-    data: result,
+    data: user,
   });
 }
