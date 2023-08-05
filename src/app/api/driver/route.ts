@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cekUser } from "~/server/user/cek";
 import { createDriver } from "~/server/driver/create";
-import { cekUserDriver } from "~/server/driver/update";
 import { driverCreateSchema } from "~/types/driver";
 
 
@@ -19,9 +19,9 @@ export async function POST(request: NextRequest) {
 
   const data = driverForm.data;
 
-  const cekUser = await cekUserDriver(data.user.email);
+  const cekDriver = await cekUser(data.user.email);
 
-  if (cekUser) {
+  if (cekDriver) {
     return NextResponse.json({
       code: "400",
       errors: [{ user: ["Email ini sudah ada"] }],

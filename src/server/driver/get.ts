@@ -10,7 +10,6 @@ export async function getDriver(id: string) {
     },
     include: {
       user: true,
-      location: true,
     },
   });
 

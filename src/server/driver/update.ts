@@ -22,58 +22,24 @@ export async function updateLocationDriver(
   id: string,
   location: ILocationCreate
 ) {
-  const driver = await prisma.driver.findUnique({
+  const driver = await prisma.driver.update({
     where: {
       id,
     },
-    select: {
-      locationId: true,
-    },
-  });
-
-  if (driver && driver.locationId) {
-    const locations = await prisma.location.update({
-      where: {
-        id: driver.locationId,
-      },
-      data: {
-        ...location,
-      },
-      select: {
-        lat: true,
-        long: true,
-      },
-    });
-    return locations;
-  }
-
-  const locations = await prisma.location.create({
     data: {
-      ...location,
-      Driver: {
-        connect: {
-          id,
-        },
-      },
+      latAwal: location.lat,
+      longAwal: location.long,
     },
     select: {
-      lat: true,
-      long: true,
+      latAwal: true,
+      longAwal: true,
     },
   });
 
-  return locations;
+  return driver;
 }
 
-export async function cekUserDriver(email: string) {
-  const findUser = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
 
-  return findUser;
-}
 
 export async function updateDriver(data: IDriverEdit) {
   const { user, id, ...driver } = data;
@@ -85,16 +51,15 @@ export async function updateDriver(data: IDriverEdit) {
     data: user,
   });
 
-  const resutl = await prisma.driver.update({
+  const result = await prisma.driver.update({
     where: { id },
     data: driver,
     include: {
-      location: true,
       user: true,
     },
   });
 
   revalidatePath("/");
 
-  return resutl;
+  return result;
 }

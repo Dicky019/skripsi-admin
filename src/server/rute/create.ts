@@ -5,12 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "~/lib/db";
 import { IRute, IRuteCreate } from "~/types/rute";
 
-interface CreateRuteProps {
-  data?: IRuteCreate;
-  isRevalidatePath?: boolean;
-}
-
-export async function createRute({ data }: CreateRuteProps) {
+export async function createRute(data?: IRuteCreate) {
   if (!data) {
     const rute = await fakerRute();
     revalidatePath("/routes");
@@ -22,16 +17,10 @@ export async function createRute({ data }: CreateRuteProps) {
       kode: data.kode,
       name: data.name,
       color: data.color,
-      locationAwal: {
-        create: data.locationAwal,
-      },
-      locationAkhir: {
-        create: data.locationAkhir,
-      },
-    },
-    include: {
-      locationAkhir: true,
-      locationAwal: true,
+      latAwal: data.locationAwal.lat,
+      longAwal: data.locationAwal.lat,
+      latAkhir: data.locationAkhir.lat,
+      longAkhir: data.locationAkhir.lat,
     },
   });
 
@@ -59,12 +48,10 @@ export const fakerRute = async () => {
       kode: ruteFaker.kode,
       name: ruteFaker.name,
       color: ruteFaker.color,
-      locationAwal: {
-        create: ruteFaker.locationAwal,
-      },
-      locationAkhir: {
-        create: ruteFaker.locationAkhir,
-      },
+      latAwal: ruteFaker.locationAwal.lat,
+      longAwal: ruteFaker.locationAwal.lat,
+      latAkhir: ruteFaker.locationAkhir.lat,
+      longAkhir: ruteFaker.locationAkhir.lat,
     },
   });
   return rute;

@@ -12,6 +12,8 @@ import { DialogRute } from "../dialogs/rute-dialog";
 import { IRute } from "~/types/rute";
 import { deleteRute } from "~/server/rute/delete";
 import Link from "next/link";
+import { createDriver } from "~/server/driver/create";
+import { createRute } from "~/server/rute/create";
 
 interface DataTableRowActionsProps {
   onDelete: (id: string) => Promise<void>;
@@ -76,6 +78,24 @@ export function TabsTable<TData, TValue>({
               Create
             </Link>
             // </DialogRute>
+          )}
+          {isAdd === AddEnum.driver && (
+            <Button
+              onClick={() => {
+                createDriver();
+              }}
+            >
+              Add
+            </Button>
+          )}
+          {isAdd === AddEnum.rute && (
+            <Button
+              onClick={() => {
+                createRute();
+              }}
+            >
+              Add
+            </Button>
           )}
           <TabsList>
             <TabsTrigger value="today">Today {todays.length}</TabsTrigger>

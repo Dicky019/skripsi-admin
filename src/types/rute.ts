@@ -20,19 +20,13 @@ export type IRuteEdit = {
 
 export type IRute = {
   id: string;
-  locationAwal: {
-    id: string;
-    lat: string;
-    long: string;
-  };
-  locationAkhir: {
-    id: string;
-    lat: string;
-    long: string;
-  };
   createdAt: Date;
   updatedAt: Date;
   name: string;
   kode: string;
   color: string;
+  latAwal : string;
+  longAwal : string;
+  latAkhir : string;
+  longAkhir : string;
 };

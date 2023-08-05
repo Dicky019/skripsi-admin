@@ -19,16 +19,10 @@ export async function editRute({ data }: EditRuteProps) {
       kode: data.kode,
       name: data.name,
       color: data.color,
-      locationAwal: {
-        create: data.locationAwal,
-      },
-      locationAkhir: {
-        create: data.locationAkhir,
-      },
-    },
-    include: {
-      locationAkhir: true,
-      locationAwal: true,
+      latAwal: data.locationAwal.lat,
+      longAwal: data.locationAwal.lat,
+      latAkhir: data.locationAkhir.lat,
+      longAkhir: data.locationAkhir.lat,
     },
   });
 

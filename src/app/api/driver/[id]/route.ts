@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cekUser } from "~/server/user/cek";
 import { getDriver } from "~/server/driver/get";
-import { cekUserDriver, updateDriver } from "~/server/driver/update";
+import {  updateDriver } from "~/server/driver/update";
 import { driverEditSchema } from "~/types/driver";
 
 type getIdParams = {
@@ -39,9 +40,9 @@ export async function PUT(request: NextRequest, { params }: getIdParams) {
   }
 
   const data = driverForm.data;
-  const cekUser = await cekUserDriver(data.user.email ?? "");
+  const cekDriver = await cekUser(data.user.email ?? "");
 
-  if (cekUser) {
+  if (cekDriver) {
     return NextResponse.json({
       code: "400",
       errors: [{ user: ["Email ini sudah ada"] }],

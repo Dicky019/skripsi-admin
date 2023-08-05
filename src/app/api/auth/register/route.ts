@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { signInFormSchema } from "~/types/auth";
 import { prisma } from "~/lib/db";
-import { cekUserDriver } from "~/server/driver/update";
+import { cekUser } from "~/server/user/cek";
 import { signJwtAccessToken } from "~/lib/jwt";
 
 export async function POST(request: NextRequest) {
@@ -20,13 +20,13 @@ export async function POST(request: NextRequest) {
 
   const signInFormData = signInForm.data;
 
-  const cekUser = await cekUserDriver(signInFormData.email ?? "");
+  const oldUser = await cekUser(signInFormData.email ?? "");
 
-  if (cekUser) {
-    const accessToken = signJwtAccessToken(cekUser);
+  if (oldUser) {
+    const accessToken = signJwtAccessToken(oldUser);
 
     const data = {
-      ...cekUser,
+      ...oldUser,
       accessToken,
     };
 
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const user = await prisma.user.create({
+  const newUser = await prisma.user.create({
     data: {
       name: signInFormData.name,
       email: signInFormData.email,
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  const { ...userWithoutPass } = user;
+  const { ...userWithoutPass } = newUser;
   const accessToken = signJwtAccessToken(userWithoutPass);
 
   const data = {

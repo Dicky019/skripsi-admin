@@ -64,6 +64,7 @@ export const fakerDriver = async () => {
   const driver = await prisma.driver.create({
     data: {
       ...newData,
+      
       user: {
         create: { ...user, role: "driver" },
       },

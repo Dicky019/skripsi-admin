@@ -16,19 +16,16 @@ export const statuses = [
   },
 ];
 
-const EmptyLocation = {
-  id: "",
-  lat: "",
-  long: "",
-};
 
 export const EmptyRute: IRute = {
   color: "",
   id: "",
   kode: "",
   name: "",
-  locationAkhir: EmptyLocation,
-  locationAwal: EmptyLocation,
+  latAkhir: "",
+  longAkhir: "",
+  latAwal: "",
+  longAwal: "",
   createdAt: new Date(),
   updatedAt: new Date(),
 };

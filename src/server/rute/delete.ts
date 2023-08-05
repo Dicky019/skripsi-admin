@@ -9,10 +9,6 @@ export async function deleteRute(
 ) {
   const rute = await prisma.rute.delete({
     where: { id },
-    include: {
-      locationAkhir: true,
-      locationAwal: true,
-    },
   });
 
   revalidatePath("/routes");

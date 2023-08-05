@@ -13,11 +13,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Icons } from "~/components/icons";
-import {
-  type IRute,
-  ruteCreateSchema,
-  IRuteCreate,
-} from "~/types/rute";
+import { type IRute, ruteCreateSchema, IRuteCreate } from "~/types/rute";
 import { Input } from "~/components/ui/input";
 import toast from "react-hot-toast";
 import { useTransition } from "react";
@@ -57,7 +53,7 @@ export function RuteForm({ className, data, ...props }: RuteFormProps) {
           toast.success("Successfully Edit!");
           return;
         }
-        await createRute({ data: rute });
+        await createRute(rute);
         toast.success("Successfully Create!");
       } catch (error) {
         toast.error("There is something wrong!");

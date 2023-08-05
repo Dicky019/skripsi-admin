@@ -6,7 +6,6 @@ import { DataTableColumnHeader } from "../data-table/data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
 import { IRute } from "~/types/rute";
 
-
 export const ruteColumns: ColumnDef<IRute>[] = [
   {
     accessorKey: "kode",
@@ -57,7 +56,7 @@ export const ruteColumns: ColumnDef<IRute>[] = [
     ),
     cell: ({ row }) => (
       <div className="text-left">
-        {row.original.locationAwal.lat}, {row.original.locationAwal.long}
+        {row.original.latAwal}, {row.original.longAwal}
       </div>
     ),
   },
@@ -68,7 +67,7 @@ export const ruteColumns: ColumnDef<IRute>[] = [
     ),
     cell: ({ row }) => (
       <div className="text-left">
-        {row.original.locationAkhir.lat}, {row.original.locationAkhir.long}
+        {row.original.latAkhir}, {row.original.longAkhir}
       </div>
     ),
   },
