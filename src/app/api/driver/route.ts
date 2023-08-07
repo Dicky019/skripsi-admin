@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cekUser } from "~/server/user/cek";
 import { createDriver } from "~/server/driver/create";
 import { driverCreateSchema } from "~/types/driver";
+import { signJwtAccessToken } from "~/lib/jwt";
 
 
 export async function POST(request: NextRequest) {
@@ -28,7 +29,7 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const driver = await createDriver(data);
+  const driver = await createDriver(data) ;
 
   if (!driver) {
     return NextResponse.json({
@@ -37,7 +38,14 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const { ...result } = driver;
+  const { user,...driverWithoutPass } = driver;
+  // const { ...userWithoutPass } = newUser;
+  const accessToken = signJwtAccessToken(user);
+
+  const result = {
+    ...driverWithoutPass,
+    accessToken,
+  };
 
   return NextResponse.json({
     code: "200",

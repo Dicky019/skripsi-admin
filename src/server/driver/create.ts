@@ -3,13 +3,13 @@
 import { faker } from "@faker-js/faker";
 import { revalidatePath } from "next/cache";
 import { prisma } from "~/lib/db";
-import { IDriverCreate } from "~/types/driver";
+import { IAPIDriver, IDriver, IDriverCreate } from "~/types/driver";
 
 export async function createDriver(data?: IDriverCreate) {
   if (!data) {
     const driver = await fakerDriver();
     revalidatePath("/");
-    return driver;
+    return driver as IAPIDriver;
   }
 
   const { user, ...newData } = data;
@@ -27,7 +27,7 @@ export async function createDriver(data?: IDriverCreate) {
   });
 
   revalidatePath("/");
-  return driver;
+  return driver as IAPIDriver;
 }
 
 export const fakerDriver = async () => {
@@ -66,6 +66,9 @@ export const fakerDriver = async () => {
       user: {
         create: { ...user, role: "driver" },
       },
+    },
+    include: {
+      user: true,
     },
   });
   return driver;

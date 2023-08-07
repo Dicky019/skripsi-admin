@@ -47,6 +47,22 @@ export const driverGetSchema = z.string();
 export type IDriverCreate = z.infer<typeof driverCreateSchema>;
 export type IDriverEdit = z.infer<typeof driverEditSchema>;
 
+export interface IAPIDriver {
+  id: string;
+  namaLengkap: string;
+  alamat: string;
+  nik: string;
+  nokk: string;
+  noHp: string;
+  noPlatMobil: string;
+  maxPenumpang: number;
+  fotoKtp: string;
+  fotoMobil: string;
+  user: {
+    status: boolean;
+  } & IUserDriver;
+}
+
 export interface IDriver {
   id: string;
   namaLengkap: string;
