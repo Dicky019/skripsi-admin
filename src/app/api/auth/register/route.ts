@@ -30,6 +30,16 @@ export async function POST(request: NextRequest) {
       accessToken,
     };
 
+    if (!data.status) {
+      return NextResponse.json(
+        {
+          code: "404",
+          errors: [{ status: ["Status Non Active"] }],
+        },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json({
       code: "200",
       data: data,
