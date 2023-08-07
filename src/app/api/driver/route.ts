@@ -45,6 +45,7 @@ export async function POST(request: NextRequest) {
   const result = {
     ...driverWithoutPass,
     accessToken,
+    user,
   };
 
   return NextResponse.json({
