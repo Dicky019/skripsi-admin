@@ -15,7 +15,8 @@ export async function GET(request: NextRequest) {
       {
         code: "401",
         status: "Unauthorized",
-        errors: [{ token: ["Token Null"] }],
+        error: { message: "Token Tidak ada" },
+        // errors: [{ token: ["Token Null"] }],
       },
       { status: 401 }
     );
@@ -27,7 +28,7 @@ export async function GET(request: NextRequest) {
       {
         code: "401",
         status: "Unauthorized",
-        errors: [{ token: ["Invalid Auth Token"] }],
+        error: { message: "Invalid Auth Token" },
       },
       { status: 401 }
     );
@@ -35,14 +36,14 @@ export async function GET(request: NextRequest) {
 
   const user = await getUser(JWT.email);
 
-  console.log({JWT,user});
-  
+  console.log({ JWT, user });
 
   if (!user) {
     return NextResponse.json(
       {
         code: "404",
-        error: { message: ["Email tidak ditemukan"] },
+        status: "Not Found",
+        error: { message: "Email tidak ditemukan" },
         // errors: [{ email: ["Email tidak ditemukan"] }],
       },
       { status: 404 }
@@ -53,7 +54,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         code: "404",
-        error: { message: ["Status Non Active"] },
+        status: "Not Found",
+        error: { message: "Status Non Active" },
       },
       { status: 404 }
     );

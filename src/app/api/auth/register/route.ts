@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           code: "404",
-          error: { message: ["Status Non Active"] },
+          error: { message: "Status Non Active" },
         },
         { status: 404 }
       );
