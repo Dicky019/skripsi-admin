@@ -43,23 +43,23 @@ export async function GET(request: NextRequest) {
       {
         code: "404",
         status: "Not Found",
-        error: { message: "Email tidak ditemukan" },
+        error: { message: "Akun tidak ditemukan" },
         // errors: [{ email: ["Email tidak ditemukan"] }],
       },
       { status: 404 }
     );
   }
 
-  if (!user.status) {
-    return NextResponse.json(
-      {
-        code: "404",
-        status: "Not Found",
-        error: { message: "Status Non Active" },
-      },
-      { status: 404 }
-    );
-  }
+  // if (!user.status) {
+  //   return NextResponse.json(
+  //     {
+  //       code: "404",
+  //       status: "Not Found",
+  //       error: { message: "Status Non Active" },
+  //     },
+  //     { status: 404 }
+  //   );
+  // }
 
   return NextResponse.json({
     code: "200",
