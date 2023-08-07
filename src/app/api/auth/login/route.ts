@@ -42,7 +42,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         code: "404",
-        errors: [{ email: ["Email tidak ditemukan"] }],
+        error: { message: ["Email tidak ditemukan"] },
+        // errors: [{ email: ["Email tidak ditemukan"] }],
       },
       { status: 404 }
     );
@@ -52,7 +53,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         code: "404",
-        errors: [{ status: ["Status Non Active"] }],
+        error: { message: ["Status Non Active"] },
       },
       { status: 404 }
     );
