@@ -88,15 +88,7 @@ export function TabsTable<TData, TValue>({
               Add
             </Button>
           )}
-          {isAdd === AddEnum.rute && (
-            <Button
-              onClick={() => {
-                createRute();
-              }}
-            >
-              Add
-            </Button>
-          )}
+          
           <TabsList>
             <TabsTrigger value="today">Today {todays.length}</TabsTrigger>
             <TabsTrigger value="all">All {all.length}</TabsTrigger>

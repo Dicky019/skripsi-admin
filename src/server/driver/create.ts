@@ -27,7 +27,6 @@ export async function createDriver(data?: IDriverCreate) {
   });
 
   revalidatePath("/");
-
   return driver;
 }
 
@@ -64,7 +63,6 @@ export const fakerDriver = async () => {
   const driver = await prisma.driver.create({
     data: {
       ...newData,
-      
       user: {
         create: { ...user, role: "driver" },
       },

@@ -13,7 +13,7 @@ export default async function Users() {
   const users = await getsUser();
   return (
     <TabsTable
-      isAdd={AddEnum.user}
+      // isAdd={AddEnum.user}
       columns={userColumns}
       searchKey="name"
       {...users}

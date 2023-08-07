@@ -13,7 +13,7 @@ export default async function Home() {
   const drivers = await getDrivers();
   return (
     <TabsTable
-      isAdd={AddEnum.driver}
+      // isAdd={AddEnum.driver}
       columns={driverColumns}
       searchKey="namaLengkap"
       {...drivers}
