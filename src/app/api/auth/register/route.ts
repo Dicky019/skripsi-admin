@@ -30,15 +30,15 @@ export async function POST(request: NextRequest) {
       accessToken,
     };
 
-    if (!data.status) {
-      return NextResponse.json(
-        {
-          code: "404",
-          error: { message: "Status Non Active" },
-        },
-        { status: 404 }
-      );
-    }
+    // if (!data.status) {
+    //   return NextResponse.json(
+    //     {
+    //       code: "404",
+    //       error: { message: "Status Non Active" },
+    //     },
+    //     { status: 404 }
+    //   );
+    // }
 
     return NextResponse.json({
       code: "200",
