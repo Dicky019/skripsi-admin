@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
 import {
@@ -19,6 +19,9 @@ import toast from "react-hot-toast";
 import { useTransition } from "react";
 import { createRute } from "~/server/rute/create";
 import { editRute } from "~/server/rute/edit";
+import { TiDeleteOutline } from "react-icons/ti";
+import { Label } from "../ui/label";
+import { Card } from "../ui/card";
 
 type RuteFormProps = {
   data?: IRute;
@@ -38,11 +41,29 @@ export function RuteForm({ className, data, ...props }: RuteFormProps) {
     },
   });
 
+  const locationsForm = useFieldArray({
+    control: form.control,
+    name: "locations",
+  });
+
+  const addLocation = () => {
+    locationsForm.append({
+      lat: "",
+      long: "",
+    });
+  };
+
+  const deleteLocation = (index: number) => {
+    locationsForm.remove(index);
+  };
+
   // 2. Define a submit handler.
   function onSubmit(values: IRuteCreate) {
     startTransition(async () => {
       try {
         const { kode, ...dataWithOutKode } = values;
+        console.log("Locations", values.locations);
+
         const rute = {
           kode: kodeStart + kode,
           ...dataWithOutKode,
@@ -113,68 +134,34 @@ export function RuteForm({ className, data, ...props }: RuteFormProps) {
             </div>
 
             {/* Location Awal */}
-            <div className="flex mb-2 gap-x-2">
-              <FormField
-                control={form.control}
-                name="locationAwal.lat"
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Location Awal Latitude</FormLabel>
-                    <FormControl>
-                      <Input placeholder="70.09090" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="locationAwal.long"
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Location Awal Longitude</FormLabel>
-                    <FormControl>
-                      <Input placeholder="70.09090" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <div className="flex flex-col mb-2 gap-y-2">
+              {/* <pre>{JSON.stringify(locationsForm.fields, null, 2)}</pre> */}
+              {locationsForm.fields.map((_, index) => {
+                return (
+                  <Card key={index} className="rounded-sm">
+                    {/* <div className="absolute"> */}
+                    <div className="flex justify-between items-center pl-2">
+                      <Label>Rute {index + 1} </Label>
+                      <Button
+                        onClick={() => deleteLocation(index)}
+                        variant="ghost"
+                        size="icon"
+                      >
+                        <TiDeleteOutline className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    {/* </div> */}
+                    <Rute index={index} />
+                  </Card>
+                );
+              })}
+              <Button disabled={isPending} variant="secondary" onClick={addLocation}>{isPending && (
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                )} Add Rute</Button>
             </div>
-            {/* End Location Awal */}
-
-            {/* Location Akhir */}
-            <div className="flex mb-2 gap-x-2">
-              <FormField
-                control={form.control}
-                name="locationAkhir.lat"
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Location Akhir Latitude</FormLabel>
-                    <FormControl>
-                      <Input placeholder="70.09090" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="locationAkhir.long"
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Location Akhir Longitude</FormLabel>
-                    <FormControl>
-                      <Input placeholder="70.09090" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            {/* End Location Akhir */}
 
             <div className="flex flex-col gap-4 my-4">
+              
               <Button disabled={isPending} type="submit">
                 {isPending && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -197,6 +184,40 @@ export function RuteForm({ className, data, ...props }: RuteFormProps) {
           </div>
         </form>
       </Form>
+    </div>
+  );
+}
+
+function Rute({ index }: { index: number }) {
+  return (
+    <div className="flex px-2 pb-2 gap-x-2">
+      <FormField
+        name={`locations.${index}.lat`}
+        render={({ field }) => (
+          <FormItem className="flex-1">
+            <FormLabel>Lat</FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                // onChange={(e) => (field.value = e.target.value)}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        name={`locations.${index}.long`}
+        render={({ field }) => (
+          <FormItem className="flex-1">
+            <FormLabel>Long</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </div>
   );
 }

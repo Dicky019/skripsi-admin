@@ -17,10 +17,15 @@ export async function createRute(data?: IRuteCreate) {
       kode: data.kode,
       name: data.name,
       color: data.color,
-      latAwal: data.locationAwal.lat,
-      longAwal: data.locationAwal.lat,
-      latAkhir: data.locationAkhir.lat,
-      longAkhir: data.locationAkhir.lat,
+      locations: {
+        createMany: {
+          data: data.locations,
+          skipDuplicates: true,
+        },
+      },
+    },
+    include: {
+      locations: true,
     },
   });
 
@@ -30,29 +35,33 @@ export async function createRute(data?: IRuteCreate) {
 }
 
 export const fakerRute = async () => {
+  
   const ruteFaker = {
     kode: `KODE ${faker.string.alpha(1)}`,
     name: faker.location.city(),
     color: faker.color.rgb(),
-    locationAwal: {
+    locations: Array.from({ length: 100 }, () => ({
       lat: faker.location.latitude().toString(),
       long: faker.location.longitude().toString(),
-    },
-    locationAkhir: {
-      lat: faker.location.latitude().toString(),
-      long: faker.location.longitude().toString(),
-    },
+    })),
   };
+
   const rute = await prisma.rute.create({
     data: {
       kode: ruteFaker.kode,
       name: ruteFaker.name,
       color: ruteFaker.color,
-      latAwal: ruteFaker.locationAwal.lat,
-      longAwal: ruteFaker.locationAwal.lat,
-      latAkhir: ruteFaker.locationAkhir.lat,
-      longAkhir: ruteFaker.locationAkhir.lat,
+      locations: {
+        createMany: {
+          data: ruteFaker.locations,
+          skipDuplicates: true,
+        },
+      },
+    },
+    include: {
+      locations: true,
     },
   });
+
   return rute;
 };

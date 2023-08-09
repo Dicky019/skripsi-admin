@@ -5,7 +5,11 @@ import { sameDay } from "~/lib/utils";
 const date = new Date();
 
 export async function getsRute() {
-  const rutes = await prisma.rute.findMany({});
+  const rutes = await prisma.rute.findMany({
+    include: {
+      locations: true,
+    },
+  });
 
   const todays = rutes.filter(({ createdAt }) => sameDay(createdAt, date));
 

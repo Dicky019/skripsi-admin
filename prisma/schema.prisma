@@ -12,7 +12,7 @@ datasource db {
 }
 
 model Driver {
-  id           String @id @default(cuid())
+  id           String  @id @default(cuid())
   namaLengkap  String
   alamat       String
   nik          String
@@ -28,16 +28,23 @@ model Driver {
 }
 
 model Rute {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String     @id @default(cuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   name      String
   kode      String
   color     String
-  latAwal   String
-  longAwal  String
-  latAkhir  String
-  longAkhir String
+  locations Location[]
+}
+
+model Location {
+  id     String @id @default(cuid())
+  lat    String
+  long   String
+  rute   Rute   @relation(fields: [ruteId], references: [id],onDelete: Cascade, onUpdate: Cascade)
+  ruteId String
+
+  @@index([ruteId])
 }
 
 model User {

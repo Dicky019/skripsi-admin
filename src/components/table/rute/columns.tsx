@@ -50,27 +50,18 @@ export const ruteColumns: ColumnDef<IRute>[] = [
     ),
   },
   {
-    accessorKey: "locationAwal",
+    accessorKey: "locations",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Location Awal" />
     ),
     cell: ({ row }) => (
       <div className="text-left">
-        {row.original.latAwal}, {row.original.longAwal}
+        {row.original.locations.length} ,
+        {row.original.locations.map(v => `${v.lat} ${v.long}`).join(", ")},
       </div>
     ),
   },
-  {
-    accessorKey: "locationAkhir",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Location Akhir" />
-    ),
-    cell: ({ row }) => (
-      <div className="text-left">
-        {row.original.latAkhir}, {row.original.longAkhir}
-      </div>
-    ),
-  },
+
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,

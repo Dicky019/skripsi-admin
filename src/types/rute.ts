@@ -6,10 +6,19 @@ const regKode = /[A-Z]/;
 
 export const ruteCreateSchema = z.object({
   name: z.string(),
-  kode: z.string().max(1).regex(regKode).transform((v) => v.toUpperCase()),
+  kode: z
+    .string()
+    .max(1)
+    .regex(regKode)
+    .transform((v) => v.toUpperCase()),
   color: z.string().regex(regColor),
-  locationAwal: locationSchema,
-  locationAkhir: locationSchema,
+  locations: z.array(locationSchema).default([
+    {
+      lat: "",
+      long: "",
+    },
+  ]),
+  // locationAkhir: locationSchema,
 });
 
 export type IRuteCreate = z.infer<typeof ruteCreateSchema>;
@@ -25,8 +34,9 @@ export type IRute = {
   name: string;
   kode: string;
   color: string;
-  latAwal : string;
-  longAwal : string;
-  latAkhir : string;
-  longAkhir : string;
+  locations: {
+    id: string;
+    lat: string;
+    long: string;
+  }[];
 };

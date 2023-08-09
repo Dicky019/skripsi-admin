@@ -4,11 +4,12 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "~/lib/db";
 import { IRute } from "~/types/rute";
 
-export async function deleteRute(
-  id: string,
-) {
+export async function deleteRute(id: string) {
   const rute = await prisma.rute.delete({
     where: { id },
+    include: {
+      locations: true,
+    },
   });
 
   revalidatePath("/routes");

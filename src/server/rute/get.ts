@@ -8,6 +8,9 @@ export async function getRute(id: string) {
     where: {
       id,
     },
+    include: {
+      locations: true,
+    },
   });
 
   return rute as IRute;
