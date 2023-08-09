@@ -24,10 +24,14 @@ export async function PUT(request: NextRequest, { params }: getIdParams) {
   const location = await updateLocationDriver(params.id, data);
 
   if (!location) {
-    return NextResponse.json({
-      code: "404",
-      errors: [{ driver: ["Driver tidak ditemukan"] }],
-    });
+    return NextResponse.json(
+      {
+        code: "404",
+        // errors: [{ driver: ["Driver tidak ditemukan"] }],
+        error: { message: "Driver tidak ditemukan" },
+      },
+      { status: 404 }
+    );
   }
 
   const { ...result } = location;

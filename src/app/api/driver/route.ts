@@ -4,7 +4,6 @@ import { createDriver } from "~/server/driver/create";
 import { driverCreateSchema } from "~/types/driver";
 import { signJwtAccessToken } from "~/lib/jwt";
 
-
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
@@ -23,22 +22,29 @@ export async function POST(request: NextRequest) {
   const cekDriver = await cekUser(data.user.email);
 
   if (cekDriver) {
-    return NextResponse.json({
-      code: "400",
-      errors: [{ user: ["Email ini sudah ada"] }],
-    });
+    return NextResponse.json(
+      {
+        code: "400",
+        // errors: [{ user: ["Email ini sudah ada"] }],
+        error: { message: "Email ini sudah ada" },
+      },
+      {
+        status: 400,
+      }
+    );
   }
 
-  const driver = await createDriver(data) ;
+  const driver = await createDriver(data);
 
   if (!driver) {
     return NextResponse.json({
       code: "404",
-      errors: [{ driver: ["Driver tidak ditemukan"] }],
+      // errors: [{ driver: ["Driver tidak ditemukan"] }],
+      error: { message: "Driver tidak ditemukan" },
     });
   }
 
-  const { user,...driverWithoutPass } = driver;
+  const { user, ...driverWithoutPass } = driver;
   // const { ...userWithoutPass } = newUser;
   const accessToken = signJwtAccessToken(user);
 
@@ -52,5 +58,4 @@ export async function POST(request: NextRequest) {
     code: "200",
     data: result,
   });
-  
 }
