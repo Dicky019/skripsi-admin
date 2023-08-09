@@ -52,12 +52,12 @@ export const ruteColumns: ColumnDef<IRute>[] = [
   {
     accessorKey: "locations",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Location Awal" />
+      <DataTableColumnHeader column={column} title="Location" />
     ),
     cell: ({ row }) => (
       <div className="text-left">
-        {row.original.locations.length} ,
-        {row.original.locations.map(v => `${v.lat} ${v.long}`).join(", ")},
+        Rute {row.original.locations.length},
+        {row.original.locations.map((v) => `${v.lat} ${v.long}`).join(", ")}
       </div>
     ),
   },
