@@ -22,10 +22,7 @@ export const EmptyRute: IRute = {
   id: "",
   kode: "",
   name: "",
-  latAkhir: "",
-  longAkhir: "",
-  latAwal: "",
-  longAwal: "",
+  locations : [],
   createdAt: new Date(),
   updatedAt: new Date(),
 };
