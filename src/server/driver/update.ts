@@ -22,24 +22,15 @@ export async function updateLocationDriver(
   id: string,
   location: ILocationCreate
 ) {
-  const driver = await prisma.driver.update({
+  const driver = await prisma.location.update({
     where: {
-      id,
+      driverId: id,
     },
-    data: {
-      latAwal: location.lat,
-      longAwal: location.long,
-    },
-    select: {
-      latAwal: true,
-      longAwal: true,
-    },
+    data: location,
   });
 
   return driver;
 }
-
-
 
 export async function updateDriver(data: IDriverEdit) {
   const { user, id, ...driver } = data;
