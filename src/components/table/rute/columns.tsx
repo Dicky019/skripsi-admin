@@ -55,10 +55,18 @@ export const ruteColumns: ColumnDef<IRute>[] = [
       <DataTableColumnHeader column={column} title="Location" />
     ),
     cell: ({ row }) => (
-      <div className="text-left">
-        Rute {row.original.locations.length},
-        {row.original.locations.map((v) => `${v.lat} ${v.long}`).join(", ")}
+      // <div className="text-left">
+      <div className="flex flex-col text-left">
+        <div className="font-semibold">
+          Rute : {row.original.locations.length}
+        </div>
+        <div className="font-semibold">
+          {row.original.locations.map((v) => `${v.lat} ${v.long}`).join(", ")}
+        </div>
       </div>
+      //   Rute {row.original.locations.length},
+      //   {row.original.locations.map((v) => `${v.lat} ${v.long}`).join(", ")}
+      // </div>
     ),
   },
 
