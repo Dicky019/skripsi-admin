@@ -8,9 +8,7 @@ export const ruteColumnsLoading: ColumnDef<IRute>[] = [
   {
     accessorKey: "kode",
     header: "Kode",
-    cell: () => (
-      <Skeleton className="my-2 h-4 w-16" />
-    ),
+    cell: () => <Skeleton className="my-2 h-4 w-16" />,
   },
   {
     accessorKey: "color",
@@ -23,14 +21,14 @@ export const ruteColumnsLoading: ColumnDef<IRute>[] = [
     cell: () => <Skeleton className="h-4 w-24" />,
   },
   {
-    accessorKey: "locationAwal",
-    header: "Location Awal",
-    cell: () => <Skeleton className="h-4 w-24" />,
-  },
-  {
-    accessorKey: "locationAkhir",
-    header: "Location Akhir",
-    cell: () => <Skeleton className="h-4 w-24" />,
+    accessorKey: "locations",
+    header: "Location",
+    cell: () => (
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-[200px]" />
+        <Skeleton className="h-4 w-[250px]" />
+      </div>
+    ),
   },
   {
     id: "actions",
