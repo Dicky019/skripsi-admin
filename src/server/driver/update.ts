@@ -22,15 +22,16 @@ export async function updateLocationDriver(
   id: string,
   location: ILocationCreate
 ) {
-  const locations = await prisma.location.upsert({
+  const locations = await prisma.location.update({
     where: {
       driverId: id,
     },
-    update: location,
-    create: {
-      ...location,
-      driverId: id,
-    },
+    // update: location,
+    // create: {
+    //   ...location,
+    //   driverId: id,
+    // },
+    data: location,
   });
 
   return locations;
