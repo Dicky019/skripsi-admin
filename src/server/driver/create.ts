@@ -17,6 +17,12 @@ export async function createDriver(data?: IDriverCreate) {
   const driver = await prisma.driver.create({
     data: {
       ...newData,
+      location: {
+        create: {
+          lat: "",
+          long: "",
+        },
+      },
       user: {
         create: { ...user, role: "driver", status: false },
       },
