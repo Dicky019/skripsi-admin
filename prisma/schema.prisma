@@ -40,8 +40,8 @@ model Location {
   id       String  @id @default(cuid())
   lat      String
   long     String
-  rute     Rute    @relation(fields: [ruteId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  ruteId   String
+  rute     Rute?    @relation(fields: [ruteId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ruteId   String?
   driver   Driver? @relation(fields: [driverId], references: [id], name: "location-driver")
   driverId String? @unique
 
