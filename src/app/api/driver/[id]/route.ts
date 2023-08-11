@@ -12,24 +12,24 @@ type getIdParams = {
 export async function GET(request: NextRequest, { params }: getIdParams) {
   console.log({ request });
 
-  // const driverId = await prisma.user.findUnique({
-  //   where: {
-  //     id: params.id,
-  //   },
-  //   select: {
-  //     driverId: true,
-  //   },
-  // });
+  const driverId = await prisma.user.findUnique({
+    where: {
+      id: params.id,
+    },
+    select: {
+      driverId: true,
+    },
+  });
 
-  // if (!driverId || !driverId.driverId) {
-  //   return NextResponse.json({
-  //     code: "404",
-  //     // errors: [{ driver: ["Driver tidak ditemukan"] }],
-  //     error: { message: "Driver tidak ditemukan" },
-  //   });
-  // }
+  if (!driverId || !driverId.driverId) {
+    return NextResponse.json({
+      code: "404",
+      // errors: [{ driver: ["Driver tidak ditemukan"] }],
+      error: { message: "Driver tidak ditemukan" },
+    });
+  }
 
-  const data = await getDriver(params.id);
+  const data = await getDriver(driverId.driverId);
 
   if (!data) {
     return NextResponse.json({
