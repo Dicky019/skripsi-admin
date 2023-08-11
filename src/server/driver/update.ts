@@ -22,19 +22,9 @@ export async function updateLocationDriver(
   id: string,
   location: ILocationCreate
 ) {
-  const driver = await prisma.user.findUnique({
-    where: {
-      id,
-    },
-  });
-
-  if (!driver?.driverId) {
-    return null;
-  }
-
   const locations = await prisma.location.update({
     where: {
-      driverId: driver?.driverId,
+      driverId: id,
     },
     data: location,
   });
