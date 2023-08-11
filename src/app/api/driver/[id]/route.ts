@@ -3,6 +3,7 @@ import { cekUser } from "~/server/user/cek";
 import { getDriver } from "~/server/driver/get";
 import { updateDriver } from "~/server/driver/update";
 import { driverEditSchema } from "~/types/driver";
+import { prisma } from "~/lib/db";
 
 type getIdParams = {
   params: { id: string };
@@ -11,7 +12,24 @@ type getIdParams = {
 export async function GET(request: NextRequest, { params }: getIdParams) {
   console.log({ request });
 
-  const data = await getDriver(params.id);
+  const driverId = await prisma.user.findUnique({
+    where: {
+      id: params.id,
+    },
+    select: {
+      driverId: true,
+    },
+  });
+
+  if (!driverId || !driverId.driverId) {
+    return NextResponse.json({
+      code: "404",
+      // errors: [{ driver: ["Driver tidak ditemukan"] }],
+      error: { message: "Driver tidak ditemukan" },
+    });
+  }
+
+  const data = await getDriver(driverId.driverId);
 
   if (!data) {
     return NextResponse.json({
