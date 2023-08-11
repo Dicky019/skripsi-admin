@@ -16,7 +16,8 @@ export async function GET(request: NextRequest, { params }: getIdParams) {
   if (!data) {
     return NextResponse.json({
       code: "404",
-      errors: [{ driver: ["Driver tidak ditemukan"] }],
+      // errors: [{ driver: ["Driver tidak ditemukan"] }],
+      error: { message: "Driver tidak ditemukan" },
     });
   }
 
