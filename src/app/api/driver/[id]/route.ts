@@ -22,21 +22,27 @@ export async function GET(request: NextRequest, { params }: getIdParams) {
   });
 
   if (!driverId || !driverId.driverId) {
-    return NextResponse.json({
-      code: "404",
-      // errors: [{ driver: ["Driver tidak ditemukan"] }],
-      error: { message: "Driver tidak ditemukan" },
-    });
+    return NextResponse.json(
+      {
+        code: "404",
+        // errors: [{ driver: ["Driver tidak ditemukan"] }],
+        error: { message: "Driver tidak ditemukan" },
+      },
+      { status: 404 }
+    );
   }
 
   const data = await getDriver(driverId.driverId);
 
   if (!data) {
-    return NextResponse.json({
-      code: "404",
-      // errors: [{ driver: ["Driver tidak ditemukan"] }],
-      error: { message: "Driver tidak ditemukan" },
-    });
+    return NextResponse.json(
+      {
+        code: "404",
+        // errors: [{ driver: ["Driver tidak ditemukan"] }],
+        error: { message: "Driver tidak ditemukan" },
+      },
+      { status: 404 }
+    );
   }
 
   return NextResponse.json({
