@@ -34,14 +34,6 @@ export async function editRute({ data }: EditRuteProps) {
       kode: data.kode,
       name: data.name,
       color: data.color,
-      // locations : {
-      //   updateMany : {
-      //     where : {
-      //       ruteId: data.id,
-      //     },
-      //     data : data.locations
-      //   }
-      // }
     },
     include: {
       locations: true,

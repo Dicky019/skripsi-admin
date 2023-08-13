@@ -19,7 +19,7 @@ export async function createRute(data?: IRuteCreate) {
       color: data.color,
       locations: {
         createMany: {
-          data: data.locations,
+          data: data.locations.map(({ id, ...value }) => value),
           skipDuplicates: true,
         },
       },
@@ -35,7 +35,6 @@ export async function createRute(data?: IRuteCreate) {
 }
 
 export const fakerRute = async () => {
-  
   const ruteFaker = {
     kode: `KODE ${faker.string.alpha(1)}`,
     name: faker.location.city(),
