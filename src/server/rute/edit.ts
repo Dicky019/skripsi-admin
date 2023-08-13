@@ -12,8 +12,15 @@ interface EditRuteProps {
 export async function editRute({ data }: EditRuteProps) {
   // console.log({ data, "data.locations": data.locations });
 
+  await prisma.location.deleteMany({
+    where: {
+      ruteId: data.id,
+    },
+  });
+
   for (const location of data.locations) {
     const { id, ...loc } = location;
+
     await prisma.location.upsert({
       where: {
         id: id,
