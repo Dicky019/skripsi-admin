@@ -1,9 +1,9 @@
-import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { prisma } from "~/lib/db";
 
+export const revalidate = 0;
+
 export async function GET() {
-  revalidatePath("/api/routes")
   const data = await prisma.rute.findMany({
     include: {
       locations: true,
