@@ -14,6 +14,7 @@ export const ruteCreateSchema = z.object({
   color: z.string().regex(regColor),
   locations: z.array(locationSchema).default([
     {
+      id : "",
       lat: "",
       long: "",
     },

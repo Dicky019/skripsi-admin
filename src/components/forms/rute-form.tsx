@@ -38,6 +38,13 @@ export function RuteForm({ className, data, ...props }: RuteFormProps) {
     defaultValues: {
       ...data,
       kode: data?.kode.replace(kodeStart, ""),
+      locations: data?.locations ?? [
+        {
+          id: "",
+          lat: "",
+          long: "",
+        },
+      ],
     },
   });
 
