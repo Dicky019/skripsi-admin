@@ -48,6 +48,7 @@ export function RuteForm({ className, data, ...props }: RuteFormProps) {
 
   const addLocation = () => {
     locationsForm.append({
+      id: "",
       lat: "",
       long: "",
     });
@@ -70,7 +71,7 @@ export function RuteForm({ className, data, ...props }: RuteFormProps) {
         };
 
         if (data) {
-          await editRute({ data: { ...rute, id: data.id } });
+          await editRute({ data: { id: data.id, ...rute } });
           toast.success("Successfully Edit!");
           return;
         }
@@ -155,13 +156,19 @@ export function RuteForm({ className, data, ...props }: RuteFormProps) {
                   </Card>
                 );
               })}
-              <Button disabled={isPending} variant="secondary" onClick={addLocation}>{isPending && (
+              <Button
+                disabled={isPending}
+                variant="secondary"
+                onClick={addLocation}
+              >
+                {isPending && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                )} Add Rute</Button>
+                )}{" "}
+                Add Rute
+              </Button>
             </div>
 
             <div className="flex flex-col gap-4 my-4">
-              
               <Button disabled={isPending} type="submit">
                 {isPending && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
