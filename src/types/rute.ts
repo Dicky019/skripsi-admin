@@ -12,13 +12,7 @@ export const ruteCreateSchema = z.object({
     .regex(regKode)
     .transform((v) => v.toUpperCase()),
   color: z.string().regex(regColor),
-  locations: z.array(locationSchema).default([
-    {
-      id : "",
-      lat: "",
-      long: "",
-    },
-  ]),
+  locations: z.array(locationSchema),
   // locationAkhir: locationSchema,
 });
 
@@ -37,7 +31,9 @@ export type IRute = {
   color: string;
   locations: {
     id: string;
-    lat: string;
-    long: string;
+    latAwal: string;
+    longAwal: string;
+    latAkhir: string;
+    longAkhir: string;
   }[];
 };

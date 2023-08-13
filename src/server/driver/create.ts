@@ -3,7 +3,7 @@
 import { faker } from "@faker-js/faker";
 import { revalidatePath } from "next/cache";
 import { prisma } from "~/lib/db";
-import { IAPIDriver, IDriver, IDriverCreate } from "~/types/driver";
+import { IAPIDriver, IDriverCreate } from "~/types/driver";
 
 export async function createDriver(data?: IDriverCreate) {
   if (!data) {
@@ -17,12 +17,6 @@ export async function createDriver(data?: IDriverCreate) {
   const driver = await prisma.driver.create({
     data: {
       ...newData,
-      location: {
-        create: {
-          lat: "",
-          long: "",
-        },
-      },
       user: {
         create: { ...user, role: "driver", status: false },
       },

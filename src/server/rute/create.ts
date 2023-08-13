@@ -41,8 +41,10 @@ export const fakerRute = async () => {
     name: faker.location.city(),
     color: faker.color.rgb(),
     locations: Array.from({ length: 100 }, () => ({
-      lat: faker.location.latitude().toString(),
-      long: faker.location.longitude().toString(),
+      latAwal: faker.location.latitude().toString(),
+      latAkhir: faker.location.latitude().toString(),
+      longAwal: faker.location.latitude().toString(),
+      longAkhir: faker.location.longitude().toString(),
     })),
   };
 

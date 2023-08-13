@@ -41,8 +41,10 @@ export function RuteForm({ className, data, ...props }: RuteFormProps) {
       locations: data?.locations ?? [
         {
           id: "",
-          lat: "",
-          long: "",
+          latAwal: "",
+          latAkhir: "",
+          longAwal: "",
+          longAkhir: "",
         },
       ],
     },
@@ -56,8 +58,10 @@ export function RuteForm({ className, data, ...props }: RuteFormProps) {
   const addLocation = () => {
     locationsForm.append({
       id: "",
-      lat: "",
-      long: "",
+      latAwal: "",
+      latAkhir: "",
+      longAwal: "",
+      longAkhir: "",
     });
   };
 
@@ -159,7 +163,8 @@ export function RuteForm({ className, data, ...props }: RuteFormProps) {
                       </Button>
                     </div>
                     {/* </div> */}
-                    <Rute index={index} />
+                    <RuteAwal index={index} />
+                    <RuteAkhir index={index} />
                   </Card>
                 );
               })}
@@ -202,18 +207,17 @@ export function RuteForm({ className, data, ...props }: RuteFormProps) {
   );
 }
 
-function Rute({ index }: { index: number }) {
+function RuteAwal({ index }: { index: number }) {
   return (
     <div className="flex px-2 pb-2 gap-x-2">
       <FormField
-        name={`locations.${index}.lat`}
+        name={`locations.${index}.latAwal`}
         render={({ field }) => (
           <FormItem className="flex-1">
             <FormLabel>Lat</FormLabel>
             <FormControl>
               <Input
                 {...field}
-                // onChange={(e) => (field.value = e.target.value)}
               />
             </FormControl>
             <FormMessage />
@@ -221,7 +225,40 @@ function Rute({ index }: { index: number }) {
         )}
       />
       <FormField
-        name={`locations.${index}.long`}
+        name={`locations.${index}.longAwal`}
+        render={({ field }) => (
+          <FormItem className="flex-1">
+            <FormLabel>Long</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+}
+
+function RuteAkhir({ index }: { index: number }) {
+  return (
+    <div className="flex px-2 pb-2 gap-x-2">
+      <FormField
+        name={`locations.${index}.latAkhir`}
+        render={({ field }) => (
+          <FormItem className="flex-1">
+            <FormLabel>Lat</FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        name={`locations.${index}.longAkhir`}
         render={({ field }) => (
           <FormItem className="flex-1">
             <FormLabel>Long</FormLabel>

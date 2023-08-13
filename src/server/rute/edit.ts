@@ -13,17 +13,14 @@ export async function editRute({ data }: EditRuteProps) {
   // console.log({ data, "data.locations": data.locations });
 
   for (const location of data.locations) {
+    const { id, ...loc } = location;
     await prisma.location.upsert({
       where: {
-        id: location.id,
+        id: id,
       },
-      update: {
-        lat: location.lat,
-        long: location.long,
-      },
+      update: loc,
       create: {
-        lat: location.lat,
-        long: location.long,
+        ...loc,
         ruteId: data.id,
       },
     });

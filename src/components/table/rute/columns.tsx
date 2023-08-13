@@ -61,7 +61,13 @@ export const ruteColumns: ColumnDef<IRute>[] = [
           Rute : {row.original.locations.length}
         </div>
         <div className="font-semibold">
-          {row.original.locations.map((v) => `${v.lat} ${v.long}`).join(", ")}
+          {row.original.locations
+            .map((v) => `${v.latAwal} ${v.longAwal}`)
+            .join(", ")}
+          {" - "}
+          {row.original.locations
+            .map((v) => `${v.latAkhir} ${v.longAkhir}`)
+            .join(", ")}
         </div>
       </div>
       //   Rute {row.original.locations.length},

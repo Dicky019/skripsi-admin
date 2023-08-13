@@ -5,9 +5,10 @@ const regLocationLong = /^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})$/;
 
 export const locationSchema = z.object({
   id: z.string(),
-  lat: z.string().regex(regLocationLat),
-  long: z.string().regex(regLocationLong),
-  // long: z.string().refine((value) => regLocation.test(value)),
+  latAwal: z.string().regex(regLocationLat),
+  latAkhir: z.string().regex(regLocationLat),
+  longAwal: z.string().regex(regLocationLong),
+  longAkhir: z.string().regex(regLocationLong),
 });
 
 export type ILocationCreate = z.infer<typeof locationSchema>;
